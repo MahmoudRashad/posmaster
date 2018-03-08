@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/lang_en"
+        android:title="@string/lang_en"/>
+    <item
+        android:id="@+id/lang_th"
+        android:visible="false"
+        android:title="@string/lang_th"/>
+
+    <item
+        android:id="@+id/lang_jp"
+        android:visible="false"
+        android:title="@string/lang_jp"/>
+
+
+
+    <item
+        android:id="@+id/lang_ar"
+        android:title="@string/lang_ar"/>
+    <item
+        android:id="@+id/refresh"
+        android:title="@string/refresh"/>
+    <item
+        android:id="@+id/logout"
+        android:title="@string/logout"/>
+    
+</menu>

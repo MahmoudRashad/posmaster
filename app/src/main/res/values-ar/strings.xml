@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mobile POS</string>
+    <string name="action_settings">الاعدادات</string>
+    <string name="total">"الاجمالي "</string>
+    <string name="barcode">باركود</string>
+    <string name="cancel">الغاء</string>
+    <string name="clear">مسح</string>
+    <string name="edit">"تعديل "</string>
+    <string name="confirm">"تم "</string>
+    <string name="date">تاريخ</string>
+    <string name="date_added">تاريخ الاضافه</string>
+    <string name="quantity">الكميه</string>
+    <string name="remove">حزف</string>
+    <string name="scan">"مسح ضوئي "</string>
+    <string name="unit_price">سعر الوحده</string>
+    <string name="name">الاسم</string>
+    <string name="id">مسلسل</string>
+    <string name="cash">"نقدي "</string>
+    <string name="change">"الباقي "</string>
+    <string name="hint_search">ادخل الاسم او الباكود</string>
+    <string name="hint_cash">"انجل النقديه هنا "</string>
+    <string name="add_new_product">ضيف منتج جديد</string>
+    <string name="add_stock">ضيف كميه من منتج</string>
+    <string name="previous">&lt;</string>
+    <string name="next">></string>
+    <string name="inventory">المخزون</string>
+    <string name="sale">بيع</string>
+    <string name="report">تقرير</string>
+    <string name="dialog_quit">"هل أنت متأكد من أنك تريد الخروج؟ "</string>
+    <string name="dialog_remove_product">هل تريد بالتأكيد إزالة هذا المنتج؟</string>
+    <string name="dialog_clear_sale">"هل تريد بالتأكيد إزالة هذا البيع؟ "</string>
+    <string name="hint_empty_sale">البيع فارغ.</string>
+    <string name="quit">خروج</string>
+    <string name="no">لا</string>
+    <string name="product_detail">تفاصيل المنتج</string>
+    <string name="stock">مخزون</string>
+    <string name="success">نجاح</string>
+    <string name="fail">فشل</string>
+    <string name="please_input_all">"يرجى استيفاء جميع البيانات "</string>
+    <string name="need_money">"بحاجة إلى "</string>
+    <string name="hint_lang">"الرجاء إعادة تشغيل التطبيق لتطبيق إعدادات اللغة هذه. "</string>
+    <string name="password">كلمه المرور</string>
+    <string name="mobile">الهاتف</string>
+    <string name="lang_en">انجليزي</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="skip">تخطي</string>
+    <string name="email">البريد الالكتروني</string>
+    <string name="Loading">تحميل...</string>
+    <string name="erroremail">البريد الإلكتروني مطلوب</string>
+    <string name="errorpassword">"كلمه المرور مطلوبه "</string>
+    <string name="network_error_title">"خطاء بالشبكه "</string>
+    <string name="network_error_contant">"من فضلك حاول فتح الwifi او بيانات الهاتف "</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="orderSubmited">تم إرسال الطلب بنجاح</string>
+    <string name="refresh">تحديث</string>
+    <string name="lang_ar">عربي</string>
+    <string name="quantityerror">"الكميه المطلوبه غير متوفره "</string>
+
+
+    <string-array name="period">
+        <item>يومي </item>
+        <item>اسبوعي</item>
+        <item>شهري</item>
+        <item>سنوي</item>
+    </string-array>
+    <string name="lang_jp">"صيني "</string>
+    <string name="lang_th">يباني</string>
+    <string name="price_type">Price Type</string>
+</resources>
