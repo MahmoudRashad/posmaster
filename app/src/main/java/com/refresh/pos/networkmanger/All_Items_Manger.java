@@ -1,20 +1,16 @@
 package com.refresh.pos.networkmanger;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.util.Log;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
-import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.refresh.pos.R;
 import com.refresh.pos.techicalservices.URLS;
 import com.refresh.pos.techicalservices.utils.LoginSharedPreferences;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 
 /**
@@ -25,14 +21,6 @@ public class All_Items_Manger {
     Activity context;
     LoginSharedPreferences loginSharedPreferences;
     private MyCustomObjectListener listener;
-    public interface MyCustomObjectListener {
-
-        void onObjectReady(JSONArray title);
-        void onFailed(String title);
-
-
-    }
-
     public All_Items_Manger(Activity context) {
         this.context = context;
         loginSharedPreferences = new LoginSharedPreferences(context);
@@ -50,6 +38,7 @@ public class All_Items_Manger {
         AndroidNetworking.get(URLS.get_All_Items)
                 .addHeaders("Authorization","Bearer " +loginSharedPreferences.getAccessToken())
                 .setTag("test")
+
                 .setPriority(Priority.IMMEDIATE)
                 .build()
                 .getAsJSONArray(new JSONArrayRequestListener() {
@@ -76,6 +65,15 @@ public class All_Items_Manger {
                         }
                     }
                 });
+
+
+    }
+
+    public interface MyCustomObjectListener {
+
+        void onObjectReady(JSONArray title);
+
+        void onFailed(String title);
 
 
     }

@@ -2,26 +2,24 @@ package com.refresh.pos.networkmanger;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.graphics.Color;
 import android.util.Log;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONArrayRequestListener;
-import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.StringRequestListener;
-import com.refresh.pos.R;
-import com.refresh.pos.techicalservices.Globalclass;
 import com.refresh.pos.techicalservices.URLS;
 import com.refresh.pos.techicalservices.utils.LoginSharedPreferences;
-import com.refresh.pos.ui.MainActivity;
-import com.refresh.pos.ui.SplashScreenActivity;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
+import okhttp3.HttpUrl;
+
+import static com.refresh.pos.networkmanger.cookes.okHttpClient;
 
 
 /**
@@ -44,18 +42,26 @@ public class LogInManager {
         this.listener = listener;
     }
 
-    public interface MyCustomObjectListener {
-
-        void onObjectReady(String title);
-        void onFailed(String title);
-
-
-    }
-
     public void logIn(final String Email, final String Password, String OfficeId)
 
     {
 
+        CookieJar cookieJar = new CookieJar() {
+
+            private final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
+
+            @Override
+            public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+                // here you get the cookies from Response
+                cookieStore.put(url.host(), cookies);
+            }
+
+            @Override
+            public List<Cookie> loadForRequest(HttpUrl url) {
+                List<Cookie> cookies = cookieStore.get(url.host());
+                return cookies != null ? cookies : new ArrayList<Cookie>();
+            }
+        };
 
         AndroidNetworking.post(URLS.login)
                 .addBodyParameter("Email", Email)
@@ -64,9 +70,11 @@ public class LogInManager {
                 .addBodyParameter("Challenge", "en-US")
                 .addBodyParameter("Culture", "")
                 .setTag("test")
+                .setOkHttpClient(okHttpClient)
                 .setContentType("application/x-www-form-urlencoded")
                 .setPriority(Priority.IMMEDIATE)
                 .build()
+
                 .getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
@@ -112,6 +120,15 @@ public class LogInManager {
 
                     }
                 });
+    }
+
+    public interface MyCustomObjectListener {
+
+        void onObjectReady(String title);
+
+        void onFailed(String title);
+
+
     }
 
 

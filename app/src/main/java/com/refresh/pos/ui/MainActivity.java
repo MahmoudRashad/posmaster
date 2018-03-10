@@ -1,7 +1,5 @@
 package com.refresh.pos.ui;
 
-import java.util.Locale;
-
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -35,7 +33,6 @@ import com.refresh.pos.domain.LanguageController;
 import com.refresh.pos.domain.inventory.Inventory;
 import com.refresh.pos.domain.inventory.Product;
 import com.refresh.pos.domain.inventory.ProductCatalog;
-import com.refresh.pos.domain.sale.SaleLedger;
 import com.refresh.pos.networkmanger.All_Items_Manger;
 import com.refresh.pos.techicalservices.DatabaseExecutor;
 import com.refresh.pos.techicalservices.Globalclass;
@@ -50,8 +47,9 @@ import com.refresh.pos.ui.sale.SaleFragment;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.Locale;
+
 import static com.refresh.pos.techicalservices.Globalclass.sync;
-import static com.refresh.pos.techicalservices.Globalclass.sync_last_orders;
 
 /**
  * This UI loads 3 main pages (Inventory, Sale, Report)
@@ -63,13 +61,64 @@ import static com.refresh.pos.techicalservices.Globalclass.sync_last_orders;
 @SuppressLint("NewApi")
 public class MainActivity extends FragmentActivity {
 
+	private static boolean SDK_SUPPORTED;
 	private ViewPager viewPager;
 	private ProductCatalog productCatalog;
 	private String productId;
 	private Product product;
-	private static boolean SDK_SUPPORTED;
 	private PagerAdapter pagerAdapter;
 	private Resources res;
+
+	public static void refresh(Activity cont) {
+		if (Globalclass.isNetworkAvailable(cont)) {
+			sync = true;
+			//TODO refresh
+			//submit local orders
+//			sync_last_orders(cont);
+
+			DatabaseExecutor.getInstance().dropAllData();
+			getreports(cont);
+			get_items_from_api(cont);
+			sync = false;
+		} else {
+			Toast.makeText(cont, cont.getResources().getString(R.string.network_error_contant), Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	private static void getreports(Activity cont) {
+
+	}
+
+	private static void get_items_from_api(Activity cont) {
+
+		All_Items_Manger all_items_manger = new All_Items_Manger(cont);
+		all_items_manger.setCustomObjectListener(new All_Items_Manger.MyCustomObjectListener() {
+
+			@Override
+			public void onObjectReady(JSONArray Products) {
+				try {
+					ProductCatalog catalog = Inventory.getInstance().getProductCatalog();
+					catalog.add_Products(Products);
+					InventoryFragment.searchBox.setText("");
+				} catch (NoDaoSetException e) {
+					Log.e("on ObjectRead:get items", e.getMessage());
+					e.printStackTrace();
+				} catch (JSONException e) {
+					Log.e("on ObjectRead:get items", e.getMessage());
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onFailed(String title) {
+				Log.e("onFailed:get items", title);
+
+			}
+		});
+		all_items_manger.get_items_list();
+
+
+	}
 
 	@SuppressLint("NewApi")
 	/**
@@ -78,7 +127,7 @@ public class MainActivity extends FragmentActivity {
 	private void initiateActionBar() {
 		if (SDK_SUPPORTED) {
 			ActionBar actionBar = getActionBar();
-			
+
 			actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 			ActionBar.TabListener tabListener = new ActionBar.TabListener() {
@@ -101,7 +150,7 @@ public class MainActivity extends FragmentActivity {
 					.setTabListener(tabListener), 1, true);
 			actionBar.addTab(actionBar.newTab().setText(res.getString(R.string.report))
 					.setTabListener(tabListener), 2, false);
-	
+
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 				actionBar.setStackedBackgroundDrawable(new ColorDrawable(Color
 						.parseColor("#73bde5")));
@@ -115,7 +164,7 @@ public class MainActivity extends FragmentActivity {
 		res = getResources();
 		setContentView(R.layout.layout_main);
 		Globalclass.activity=MainActivity.this;
-		viewPager = (ViewPager) findViewById(R.id.pager);
+		viewPager = findViewById(R.id.pager);
 		super.onCreate(savedInstanceState);
 		SDK_SUPPORTED = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 		initiateActionBar();
@@ -160,7 +209,7 @@ public class MainActivity extends FragmentActivity {
 		quitDialog.setNegativeButton(res.getString(R.string.no), new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				
+
 			}
 		});
 		quitDialog.show();
@@ -259,8 +308,7 @@ public class MainActivity extends FragmentActivity {
 		inflater.inflate(R.menu.main, menu);
 		return true;
 	}
-	
-	
+
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -289,54 +337,6 @@ public class MainActivity extends FragmentActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-	public static void refresh(Activity cont ) {
-		if (Globalclass.isNetworkAvailable(cont ))
-		{
-			sync = true;
-			//TODO refresh
-			//submit local orders
-//			sync_last_orders(cont);
-
-			DatabaseExecutor.getInstance().dropAllData();
-			get_items_from_api(cont);
-			sync = false;
-		}
-		else {
-			Toast.makeText(cont,cont.getResources().getString(R.string.network_error_contant),Toast.LENGTH_SHORT).show();
-		}
-	}
-	private static void get_items_from_api(Activity cont) {
-
-		All_Items_Manger all_items_manger= new All_Items_Manger(cont);
-		all_items_manger.setCustomObjectListener(new All_Items_Manger.MyCustomObjectListener() {
-
-			@Override
-			public void onObjectReady(JSONArray Products) {
-				try {
-					ProductCatalog catalog = Inventory.getInstance().getProductCatalog();
-					catalog.add_Products(Products);
-					InventoryFragment.searchBox.setText("");
-				} catch (NoDaoSetException e) {
-					Log.e("on ObjectRead:get items",e.getMessage() );
-					e.printStackTrace();
-				} catch (JSONException e) {
-					Log.e("on ObjectRead:get items", e.getMessage());
-					e.printStackTrace();
-				}
-			}
-
-			@Override
-			public void onFailed(String title) {
-				Log.e("onFailed:get items", title);
-
-			}
-		});
-		all_items_manger.get_items_list();
-
-
-
-	}
 
 	public void go_logout()
 	{

@@ -5,7 +5,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
 import com.refresh.pos.domain.sale.Sale;
@@ -16,6 +15,8 @@ import com.refresh.pos.techicalservices.utils.LoginSharedPreferences;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static com.refresh.pos.networkmanger.cookes.okHttpClient;
 
 /**
  * Created by mahmoudrashad on 2/13/2018.
@@ -33,11 +34,6 @@ public class Submit_order_Manger {
 
     public void setListener(mycustomer_click_lisner listener) {
         this.listener = listener;
-    }
-
-    public interface mycustomer_click_lisner{
-        void onObjectReady(String response);
-        void onFailed(String s);
     }
 
     public void Submit_order(Sale sale,
@@ -62,7 +58,7 @@ public class Submit_order_Manger {
             jsonopj.put("StoreId",Globalclass.storeid);
             jsonopj.put("Tender",Tender);
             jsonopj.put("ValueDate",date);
-            jsonopj.put("Details[0]",arropj.get(0));
+            jsonopj.put("Details", arropj);
 
 
         } catch (JSONException e) {
@@ -73,12 +69,21 @@ public class Submit_order_Manger {
 
         AndroidNetworking.post(URLS.Submit_order)
                 .addHeaders("Authorization","Bearer " +loginSharedPreferences.getAccessToken())
-//                .setTag("test")
-//                .setContentType("application/x-www-form-urlencoded")
-//                .setPriority(Priority.IMMEDIATE)
+                .addHeaders("Content-Type", "application/json")
 
-//                .addHeaders("Content-Type", "application/json")
+//                .addBodyParameter("BookDate",""+date)
+//                .addBodyParameter("Change",""+change)
+//                .addBodyParameter("CostCenterId",""+CustomerId)
+//                .addBodyParameter("CustomerId","1")
+//                .addBodyParameter("CustomerName",""+CustomerName)
+//                .addBodyParameter("PriceTypeId",""+ Globalclass.price_type)
+//                .addBodyParameter("ShipperId","1")
+//                .addBodyParameter("StoreId",""+ Globalclass.storeid)
+//                .addBodyParameter("Tender",""+Tender)
+//                .addBodyParameter("ValueDate",""+ date)
+//                .addBodyParameter("Details",arropj.toString())
 
+                .setOkHttpClient(okHttpClient)
                 .addJSONObjectBody(jsonopj)
 
                 .build()
@@ -88,7 +93,8 @@ public class Submit_order_Manger {
                     public void onResponse(String response) {
                         if (listener != null){
                             Toast.makeText(activity,response,Toast.LENGTH_SHORT).show();
-                            if ( new ResultHandler().validateHandlerResult(activity,response)){
+
+                            if (new ResultHandler().validateHandlerResult(activity, response, 1)) {
                                 listener.onObjectReady(response );
                             }
                         }
@@ -109,6 +115,12 @@ public class Submit_order_Manger {
 
                     }
                 });
+    }
+
+    public interface mycustomer_click_lisner {
+        void onObjectReady(String response);
+
+        void onFailed(String s);
     }
 
 

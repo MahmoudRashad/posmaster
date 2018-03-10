@@ -66,5 +66,8 @@
     </string-array>
     <string name="lang_jp">"صيني "</string>
     <string name="lang_th">يباني</string>
-    <string name="price_type">Price Type</string>
+    <string name="price_type">"نوع البيع "</string>
+    <string name="ReorderQuantity">"حد اعاده الطلب "</string>
+    <string name="store">"مخزن "</string>
+    <string name="counter">كاونتر</string>
 </resources>
