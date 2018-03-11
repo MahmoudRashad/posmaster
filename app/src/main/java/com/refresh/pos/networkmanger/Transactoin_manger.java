@@ -12,12 +12,13 @@ import com.refresh.pos.domain.sale.Sale;
 import com.refresh.pos.techicalservices.Globalclass;
 import com.refresh.pos.techicalservices.NoDaoSetException;
 import com.refresh.pos.techicalservices.URLS;
-import com.refresh.pos.techicalservices.sale.SaleDao;
 import com.refresh.pos.techicalservices.utils.LoginSharedPreferences;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static com.refresh.pos.networkmanger.cookes.okHttpClient;
 
 /**
  * Created by mahmoudrashad on 2/20/2018.
@@ -25,9 +26,9 @@ import org.json.JSONObject;
 
 public class Transactoin_manger {
     Activity activity;
-    private Register regis;
     LoginSharedPreferences loginSharedPreferences;
     mycustomer_click_lisner listener;
+    private Register regis;
     public Transactoin_manger(Activity activity) {
         this.activity = activity;
         try {
@@ -42,15 +43,11 @@ public class Transactoin_manger {
         this.listener = listener;
     }
 
-    public interface mycustomer_click_lisner{
-        void onObjectReady(String response);
-        void onFailed(String s);
-    }
-
     public void get_Transactions(String start, String end ){
         AndroidNetworking.post(URLS.Get_Transactions)
-                .addBodyParameter("ExpectedFrom",start)
-                .addBodyParameter("ExpectedTo",end)
+                .addBodyParameter("From", start)
+                .addBodyParameter("To", end)
+                .setOkHttpClient(okHttpClient)
                 .addHeaders("Authorization","Bearer " +loginSharedPreferences.getAccessToken())
                 .setTag("test")
                 .setContentType("application/json")
@@ -60,7 +57,7 @@ public class Transactoin_manger {
                     @Override
                     public void onResponse(JSONArray response) {
 
-                        //TODO handel get_Transactions response
+                        // handel get_Transactions response
                         if (listener != null){
 
 
@@ -97,12 +94,18 @@ public class Transactoin_manger {
 
                     @Override
                     public void onError(ANError anError) {
-
+                        Log.d("apidata", anError.getResponse().toString());
                     }
                 });
 
 
 
+    }
+
+    public interface mycustomer_click_lisner {
+        void onObjectReady(String response);
+
+        void onFailed(String s);
     }
 
 

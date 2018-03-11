@@ -34,6 +34,8 @@ import com.refresh.pos.domain.inventory.Inventory;
 import com.refresh.pos.domain.inventory.Product;
 import com.refresh.pos.domain.inventory.ProductCatalog;
 import com.refresh.pos.networkmanger.All_Items_Manger;
+import com.refresh.pos.networkmanger.Transactoin_manger;
+import com.refresh.pos.networkmanger.logout_Manger;
 import com.refresh.pos.techicalservices.DatabaseExecutor;
 import com.refresh.pos.techicalservices.Globalclass;
 import com.refresh.pos.techicalservices.NoDaoSetException;
@@ -47,6 +49,9 @@ import com.refresh.pos.ui.sale.SaleFragment;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import static com.refresh.pos.techicalservices.Globalclass.sync;
@@ -72,7 +77,7 @@ public class MainActivity extends FragmentActivity {
 	public static void refresh(Activity cont) {
 		if (Globalclass.isNetworkAvailable(cont)) {
 			sync = true;
-			//TODO refresh
+
 			//submit local orders
 //			sync_last_orders(cont);
 
@@ -86,7 +91,27 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private static void getreports(Activity cont) {
+		Date c = Calendar.getInstance().getTime();
+		Date f = new Date("2017-01-01'T'00:00");
 
+
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+		String to = df.format(c);
+		String from = df.format(f);
+
+		Transactoin_manger transactoin_manger = new Transactoin_manger(cont);
+		transactoin_manger.setListener(new Transactoin_manger.mycustomer_click_lisner() {
+			@Override
+			public void onObjectReady(String response) {
+
+			}
+
+			@Override
+			public void onFailed(String s) {
+
+			}
+		});
+		transactoin_manger.get_Transactions(from, to);
 	}
 
 	private static void get_items_from_api(Activity cont) {
@@ -345,6 +370,8 @@ public class MainActivity extends FragmentActivity {
 		//logout
 		LoginSharedPreferences temp =new LoginSharedPreferences(MainActivity.this);
 		temp.removeLogin(MainActivity.this);
+		logout_Manger logout_manger = new logout_Manger(MainActivity.this);
+		logout_manger.logout();
 		go();
 	}
 

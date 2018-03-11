@@ -12,11 +12,11 @@ import org.json.JSONObject;
 
 class ResultHandler {
     public boolean validateHandlerResult(Activity context, JSONObject response) {
-        //TODO Handl response
+        //  Handl response
         return true;
     }
     public boolean validateHandlerResult(Activity context, JSONArray response) {
-        //TODO Handl response
+        //  Handl response
         return true;
     }
 

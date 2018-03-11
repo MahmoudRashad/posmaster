@@ -129,8 +129,8 @@ public class EndPaymentFragmentDialog extends DialogFragment  {
 //			saleFragment.update();
 //			reportFragment.update();
 //			this.dismiss();
-//			//todo  add to sync table
-        }
+
+		}
 
 
 

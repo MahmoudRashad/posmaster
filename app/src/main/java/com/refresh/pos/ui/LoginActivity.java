@@ -2,8 +2,6 @@ package com.refresh.pos.ui;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.provider.ContactsContract;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.refresh.pos.R;
@@ -31,14 +28,14 @@ import java.util.ArrayList;
 public class LoginActivity extends Activity {
 
 
+    Spinner mySpinner;
+    ArrayList<Branche> branches_list_s;
     private EditText Email;
     private EditText password;
     private Button skipbtn;
     private Button loginbtn;
-    Spinner mySpinner;
-
     private String officeid="1";
-    ArrayList<Branche> branches_list_s;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,13 +76,13 @@ public class LoginActivity extends Activity {
     }
 
     private void initializationUI() {
-        Email = (EditText) findViewById(R.id.email);
+        Email = findViewById(R.id.email);
         Email.setText("haytham115@hotmail.com");
-        password = (EditText) findViewById(R.id.passWord);
+        password = findViewById(R.id.passWord);
         password.setText("123456");
 
-        skipbtn = (Button) findViewById(R.id.skipbtn);
-        loginbtn = (Button) findViewById(R.id.loginButton);
+        skipbtn = findViewById(R.id.skipbtn);
+        loginbtn = findViewById(R.id.loginButton);
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,7 +91,7 @@ public class LoginActivity extends Activity {
         });
 
 
-          mySpinner = (Spinner)findViewById(R.id.Branches_sp);
+        mySpinner = findViewById(R.id.Branches_sp);
         mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -190,7 +187,7 @@ public class LoginActivity extends Activity {
         return true;
     }
     private void go() {
-        //TODO  first loading
+
         Intent newActivity = new Intent(LoginActivity.this,
                 MainActivity.class);
         Globalclass.fristlogin = true;
