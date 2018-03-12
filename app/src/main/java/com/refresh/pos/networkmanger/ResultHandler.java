@@ -1,6 +1,7 @@
 package com.refresh.pos.networkmanger;
 
 import android.app.Activity;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -28,9 +29,11 @@ class ResultHandler {
         if (x == 1) {
             try {
                 int trancatoin_id = Integer.parseInt(response);
+                Toast.makeText(context, response, Toast.LENGTH_LONG).show();
                 return true;
             } catch (Exception e) {
-                Toast.makeText(context, response, Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, response, Toast.LENGTH_LONG).show();
+                Log.d("validateHandlerResult: ", e.getMessage());
                 return false;
             }
 

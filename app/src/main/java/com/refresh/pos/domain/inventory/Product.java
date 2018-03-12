@@ -14,17 +14,15 @@ import java.util.Map;
  */
 public class Product {
 
+	/**
+	 * Static value for UNDEFINED ID.
+	 */
+	public static final int UNDEFINED_ID = -1;
 	private int id;
 	private int quantity;
 	private String name;
 	private String barcode;
 	private double unitPrice;
-
-	
-	/**
-	 * Static value for UNDEFINED ID.
-	 */
-	public static final int UNDEFINED_ID = -1;
 
 	/**
 	 * Constructs a new Product.
@@ -46,9 +44,29 @@ public class Product {
 	public Product(JSONObject opj) {
 		try {this.id = opj.getInt("ItemId");} catch (JSONException e) {e.printStackTrace();id=UNDEFINED_ID;}
 		try {this.name = opj.getString("ItemName");} catch (JSONException e) {e.printStackTrace();name="";}
-		try {this.barcode = opj.getString("Barcode");} catch (JSONException e) {e.printStackTrace();barcode="";}
-		try {this.unitPrice = opj.getDouble("CostPrice");} catch (JSONException e) {e.printStackTrace();unitPrice=0.0;}
-		try {this.quantity = opj.getInt("ReorderQuantity");} catch (JSONException e) {e.printStackTrace();quantity=0;}
+		try {this.barcode = opj.getString("Barcode");} catch (JSONException e) {e.printStackTrace();barcode = "";
+		}
+
+		if (opj.has("CostPrice"))
+			try {this.unitPrice = opj.getDouble("CostPrice");} catch (JSONException e) {e.printStackTrace();unitPrice= 0.0;
+			}
+		else
+			try {
+				this.unitPrice = opj.getDouble("Price");
+			} catch (JSONException e) {
+				e.printStackTrace();
+				unitPrice = 0.0;
+			}
+
+		if (opj.has("Quantity"))
+			try {
+				this.quantity = opj.getInt("Quantity");
+			} catch (JSONException e) {
+				e.printStackTrace();
+				quantity = 0;
+			}
+		else
+			try {this.quantity = opj.getInt("ReorderQuantity");} catch (JSONException e) {e.printStackTrace();quantity=0;}
 	}
 	
 	/**
@@ -59,10 +77,6 @@ public class Product {
 	 */
 	public Product(String name, String barcode, double salePrice) {
 		this(UNDEFINED_ID, name, barcode, salePrice);
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public int getQuantity() {
@@ -80,7 +94,7 @@ public class Product {
 	public String getName() {
 		return name;
 	}
-	
+
 	/**
 	 * Sets name of this product.
 	 * @param name name of this product.
@@ -88,23 +102,7 @@ public class Product {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	/**
-	 * Sets barcode of this product.
-	 * @param barcode barcode of this product.
-	 */
-	public void setBarcode(String barcode) {
-		this.barcode = barcode;
-	}
-
-	/**
-	 * Sets price of this product.
-	 * @param unitPrice price of this product.
-	 */
-	public void setUnitPrice(double unitPrice) {
-		this.unitPrice = unitPrice;
-	}
-
+	
 	/**
 	 * Returns id of this product.
 	 * @return id of this product.
@@ -112,13 +110,26 @@ public class Product {
 	public int getId() {
 		return id;
 	}
-	
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	/**
 	 * Returns barcode of this product.
 	 * @return barcode of this product.
 	 */
 	public String getBarcode() {
 		return barcode;
+	}
+
+	/**
+	 * Sets barcode of this product.
+	 *
+	 * @param barcode barcode of this product.
+	 */
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
 	}
 	
 	/**
@@ -127,6 +138,15 @@ public class Product {
 	 */
 	public double getUnitPrice() {
 		return unitPrice;
+	}
+
+	/**
+	 * Sets price of this product.
+	 *
+	 * @param unitPrice price of this product.
+	 */
+	public void setUnitPrice(double unitPrice) {
+		this.unitPrice = unitPrice;
 	}
 
 	/**

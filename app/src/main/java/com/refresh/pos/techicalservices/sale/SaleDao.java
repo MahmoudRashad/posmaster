@@ -1,10 +1,10 @@
 package com.refresh.pos.techicalservices.sale;
 
-import java.util.Calendar;
-import java.util.List;
-
 import com.refresh.pos.domain.inventory.LineItem;
 import com.refresh.pos.domain.sale.Sale;
+
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * DAO for Sale process.
@@ -27,6 +27,14 @@ public interface SaleDao {
 	 * @param endTime time that Sale ended.
 	 */
 	void endSale(Sale sale, String endTime,String status);
+
+	/**
+	 * End Sale
+	 *
+	 * @param sale    Sale to be ended.
+	 * @param endTime time that Sale ended.
+	 */
+	void startandendSale(Sale sale, String endTime, String status);
 
 	/**
 	 * Add LineItem to Sale.

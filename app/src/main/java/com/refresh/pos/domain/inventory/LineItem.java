@@ -14,15 +14,14 @@ import java.util.Map;
  */
 public class LineItem {
 
-	private final Product product;
+    /**
+     * Static value for UNDEFINED ID.
+     */
+    public static final int UNDEFINED = -1;
+    private final Product product;
 	private int quantity;
 	private int id;
 	private double unitPriceAtSale;
-
-	/**
-	 * Static value for UNDEFINED ID.
-	 */
-	public static final int UNDEFINED = -1;
 
 	/**
 	 * Constructs a new LineItem.
@@ -30,8 +29,8 @@ public class LineItem {
 	 * @param quantity product quantity of this LineItem.
 	 */
 	public LineItem(Product product, int quantity) {
-		this(UNDEFINED, product, quantity, product.getUnitPrice());
-	}
+        this(product.getId(), product, quantity, product.getUnitPrice());
+    }
 
 	/**
 	 * Constructs a new LineItem.

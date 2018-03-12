@@ -31,14 +31,12 @@ public class All_Items_Manger {
     }
 
     public void get_items_list( )
-
     {
 
 
         AndroidNetworking.get(URLS.get_All_Items)
                 .addHeaders("Authorization","Bearer " +loginSharedPreferences.getAccessToken())
                 .setTag("test")
-
                 .setPriority(Priority.IMMEDIATE)
                 .build()
                 .getAsJSONArray(new JSONArrayRequestListener() {
@@ -48,19 +46,15 @@ public class All_Items_Manger {
                             if (listener != null){
                                 listener.onObjectReady(response);
                             }
-
                     }
-
                     @Override
                     public void onError(ANError anError) {
                         try {
-
                             if (listener != null){
                                 listener.onFailed(anError.getErrorBody().toString());
                             }
                         }catch (Exception e) {
                             // handle error
-
                             Log.d("apidata", anError.getErrorBody().toString());
                         }
                     }

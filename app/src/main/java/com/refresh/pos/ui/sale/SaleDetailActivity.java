@@ -1,9 +1,5 @@
 package com.refresh.pos.ui.sale;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -15,12 +11,24 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.refresh.pos.R;
 import com.refresh.pos.domain.inventory.LineItem;
+import com.refresh.pos.domain.inventory.Product;
 import com.refresh.pos.domain.sale.Sale;
 import com.refresh.pos.domain.sale.SaleLedger;
+import com.refresh.pos.networkmanger.TransationitemsManger;
+import com.refresh.pos.techicalservices.Globalclass;
 import com.refresh.pos.techicalservices.NoDaoSetException;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * UI for showing the detail of Sale in the record.
@@ -47,9 +55,44 @@ public class SaleDetailActivity extends Activity{
 		}
 		
 		saleId = Integer.parseInt(getIntent().getStringExtra("id"));
-		sale = saleLedger.getSaleById(saleId);
-		
+		if (Globalclass.isNetworkAvailable(SaleDetailActivity.this))
+			sale = get_sale(saleId);
+		else
+			Toast.makeText(SaleDetailActivity.this, getResources().getString(R.string.network_error_contant), Toast.LENGTH_SHORT).show();
+
 		initUI(savedInstanceState);
+	}
+
+	private Sale get_sale(int saleId) {
+		final Sale tmp = saleLedger.getSaleById(saleId);
+		TransationitemsManger transationitemsManger = new TransationitemsManger(SaleDetailActivity.this);
+		transationitemsManger.setListener(new TransationitemsManger.mycustomer_click_lisner() {
+			@Override
+			public void onObjectReady(JSONArray response) {
+
+				for (int i = 0; i < response.length(); i++) {
+
+					try {
+						JSONObject j = response.getJSONObject(i);
+						Product p = new Product(j);
+						tmp.addLineItem(p, p.getQuantity());
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+				update();
+			}
+
+			@Override
+			public void onFailed(String s) {
+				Toast.makeText(SaleDetailActivity.this, s, Toast.LENGTH_SHORT).show();
+
+			}
+		});
+		transationitemsManger.Transationitem("" + tmp.getId());
+
+
+		return tmp;
 	}
 
 
@@ -76,10 +119,10 @@ public class SaleDetailActivity extends Activity{
 		setContentView(R.layout.layout_saledetail);
 		
 		initiateActionBar();
-		
-		totalBox = (TextView) findViewById(R.id.totalBox);
-		dateBox = (TextView) findViewById(R.id.dateBox);
-		lineitemListView = (ListView) findViewById(R.id.lineitemList);
+
+		totalBox = findViewById(R.id.totalBox);
+		dateBox = findViewById(R.id.dateBox);
+		lineitemListView = findViewById(R.id.lineitemList);
 	}
 
 	/**

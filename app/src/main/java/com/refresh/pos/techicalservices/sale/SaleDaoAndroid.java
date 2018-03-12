@@ -1,9 +1,5 @@
 package com.refresh.pos.techicalservices.sale;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
 import android.content.ContentValues;
 
 import com.refresh.pos.domain.DateTimeStrategy;
@@ -13,6 +9,10 @@ import com.refresh.pos.domain.sale.QuickLoadSale;
 import com.refresh.pos.domain.sale.Sale;
 import com.refresh.pos.techicalservices.Database;
 import com.refresh.pos.techicalservices.DatabaseContents;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 
 /**
@@ -54,7 +54,25 @@ public class SaleDaoAndroid implements SaleDao {
         content.put("end_time", endTime);
 		database.update(DatabaseContents.TABLE_SALE.toString(), content);
 	}
-	
+
+	@Override
+	public void startandendSale(Sale sale, String endTime, String status) {
+		ContentValues content = new ContentValues();
+		content.put("_id", sale.getId());
+		content.put("status", status);
+		content.put("payment", "n/a");
+		content.put("total", sale.getTotal());
+		content.put("orders", sale.getOrders());
+		content.put("start_time", sale.getStartTime());
+		content.put("end_time", endTime);
+
+		int id = database.insert(DatabaseContents.TABLE_SALE.toString(), content);
+		for (int i = 0; i < sale.getAllLineItem().size(); i++) {
+			addLineItem(id, sale.getAllLineItem().get(i));
+		}
+
+	}
+
 	@Override
 	public int addLineItem(int saleId, LineItem lineItem) {
 		ContentValues content = new ContentValues();

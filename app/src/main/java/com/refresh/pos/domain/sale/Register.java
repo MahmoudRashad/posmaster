@@ -112,7 +112,7 @@ public class Register {
 	 */
 	public void ensertendedSale(Sale sale,String status) {
 
-			saleDao.endSale(sale, sale.getEndTime(), status);
+        saleDao.startandendSale(sale, sale.getEndTime(), status);
 
 
 	}
@@ -142,11 +142,10 @@ public class Register {
 	 * @return true if there is a current Sale; otherwise false.
 	 */
 	public boolean hasSale(){
-		if(currentSale == null)return false;
-		return true;
-	}
-	
-	/**
+        return currentSale != null;
+    }
+
+    /**
 	 * Cancels the current Sale.
 	 */
 	public void cancleSale() {

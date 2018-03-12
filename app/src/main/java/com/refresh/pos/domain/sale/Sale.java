@@ -1,17 +1,16 @@
 package com.refresh.pos.domain.sale;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.refresh.pos.domain.inventory.LineItem;
 import com.refresh.pos.domain.inventory.Product;
-import com.refresh.pos.techicalservices.Globalclass;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Sale represents sale operation.
@@ -67,15 +66,16 @@ public class Sale {
 		JSONArray tmp;
 		try {tmp=opj.getJSONArray("Details");}catch (JSONException e){tmp =null;	}
 		this.items = new ArrayList<LineItem>();
-		for (int i=0;i<tmp.length();i++){
-			try {
-				Product Ptmp= new Product(tmp.getJSONObject(i));
-				LineItem LItmp =new LineItem(Ptmp,Ptmp.getQuantity());
-				items.add(LItmp);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
+        if (tmp != null)
+            for (int i = 0; i<tmp.length(); i++){
+                try {
+                    Product Ptmp= new Product(tmp.getJSONObject(i));
+                    LineItem LItmp =new LineItem(Ptmp,Ptmp.getQuantity());
+                    items.add(LItmp);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
 
 
 

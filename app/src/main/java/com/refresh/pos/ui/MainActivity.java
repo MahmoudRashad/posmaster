@@ -15,6 +15,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -49,12 +50,16 @@ import com.refresh.pos.ui.sale.SaleFragment;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 import static com.refresh.pos.techicalservices.Globalclass.sync;
+import static com.refresh.pos.ui.MainActivity.reportFragment;
+import static com.refresh.pos.ui.MainActivity.saleFragment;
 
 /**
  * This UI loads 3 main pages (Inventory, Sale, Report)
@@ -66,6 +71,7 @@ import static com.refresh.pos.techicalservices.Globalclass.sync;
 @SuppressLint("NewApi")
 public class MainActivity extends FragmentActivity {
 
+	public static UpdatableFragment reportFragment, saleFragment;
 	private static boolean SDK_SUPPORTED;
 	private ViewPager viewPager;
 	private ProductCatalog productCatalog;
@@ -74,25 +80,47 @@ public class MainActivity extends FragmentActivity {
 	private PagerAdapter pagerAdapter;
 	private Resources res;
 
-	public static void refresh(Activity cont) {
+	public static void refresh(final Activity cont) {
 		if (Globalclass.isNetworkAvailable(cont)) {
-			sync = true;
 
-			//submit local orders
-//			sync_last_orders(cont);
+			if (Looper.myLooper() == Looper.getMainLooper()) {
+				Thread task = new Thread() {
+					@Override
+					public void run() {
+						sync = true;
 
-			DatabaseExecutor.getInstance().dropAllData();
-			getreports(cont);
-			get_items_from_api(cont);
-			sync = false;
+						//submit local orders
+
+						if (Globalclass.fristlogin)
+							DatabaseExecutor.getInstance().dropAllData();
+						get_items_from_api(cont);
+						getreports(cont);
+						sync = false;
+					}
+				};
+
+				task.start();
+				return;
+			}
+
+
 		} else {
 			Toast.makeText(cont, cont.getResources().getString(R.string.network_error_contant), Toast.LENGTH_SHORT).show();
 		}
 	}
 
 	private static void getreports(Activity cont) {
+
+		DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+		Date f;
+		try {
+			f = formatter.parse("01/29/2017");
+		} catch (ParseException e) {
+			e.printStackTrace();
+			f = new Date();
+		}
 		Date c = Calendar.getInstance().getTime();
-		Date f = new Date("2017-01-01'T'00:00");
+
 
 
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
@@ -103,7 +131,8 @@ public class MainActivity extends FragmentActivity {
 		transactoin_manger.setListener(new Transactoin_manger.mycustomer_click_lisner() {
 			@Override
 			public void onObjectReady(String response) {
-
+				saleFragment.update();
+				reportFragment.update();
 			}
 
 			@Override
@@ -187,6 +216,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		res = getResources();
+
 		setContentView(R.layout.layout_main);
 		Globalclass.activity=MainActivity.this;
 		viewPager = findViewById(R.id.pager);
@@ -419,9 +449,9 @@ class PagerAdapter extends FragmentStatePagerAdapter {
 	public PagerAdapter(FragmentManager fragmentManager, Resources res) {
 		
 		super(fragmentManager);
-		
-		UpdatableFragment reportFragment = new ReportFragment();
-		UpdatableFragment saleFragment = new SaleFragment(reportFragment);
+
+		reportFragment = new ReportFragment();
+		saleFragment = new SaleFragment(reportFragment);
 		UpdatableFragment inventoryFragment = new InventoryFragment(
 				saleFragment);
 

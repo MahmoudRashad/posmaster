@@ -16,10 +16,7 @@ public class URLS {
     public static String stores=Server_url+"api/forms/inventory/stores/display-fields";
     public static String counters=Server_url+"api/forms/inventory/counters/display-fields/get-where";
     public static String logout = Server_url + "account/sign-out";
-
-
-
-
+    public static String transationitem = Server_url + "dashboard/sales/tasks/entry/transactionitems";
 }
 
 

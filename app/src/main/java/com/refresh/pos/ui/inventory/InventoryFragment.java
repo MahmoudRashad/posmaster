@@ -1,45 +1,31 @@
 package com.refresh.pos.ui.inventory;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import android.annotation.SuppressLint;
-import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
-//import com.google.zxing.integration.android.IntentIntegratorSupportV4;
 import com.google.zxing.integration.android.IntentResult;
 import com.refresh.pos.R;
-import com.refresh.pos.domain.Branche;
 import com.refresh.pos.domain.inventory.Inventory;
-import com.refresh.pos.domain.inventory.KEY_VALUE;
 import com.refresh.pos.domain.inventory.Product;
 import com.refresh.pos.domain.inventory.ProductCatalog;
 import com.refresh.pos.domain.inventory.Stock;
 import com.refresh.pos.domain.sale.Register;
-import com.refresh.pos.networkmanger.All_Items_Manger;
-import com.refresh.pos.networkmanger.Get_Branches_Manger;
-import com.refresh.pos.networkmanger.Sale_flags;
 import com.refresh.pos.techicalservices.DatabaseExecutor;
 import com.refresh.pos.techicalservices.Demo;
 import com.refresh.pos.techicalservices.Globalclass;
@@ -48,12 +34,11 @@ import com.refresh.pos.ui.MainActivity;
 import com.refresh.pos.ui.component.ButtonAdapter;
 import com.refresh.pos.ui.component.UpdatableFragment;
 
-import org.json.JSONArray;
-import org.json.JSONException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-import static com.refresh.pos.techicalservices.Globalclass.isNetworkAvailable;
-import static com.refresh.pos.techicalservices.Globalclass.price_type;
-import static com.refresh.pos.techicalservices.Globalclass.sync;
+//import com.google.zxing.integration.android.IntentIntegratorSupportV4;
 
 /**
  * UI for Inventory, shows list of Product in the ProductCatalog.
@@ -67,11 +52,11 @@ public class InventoryFragment extends UpdatableFragment {
 
 
 	protected static final int SEARCH_LIMIT = 0;
+	public static EditText searchBox;
 	private ListView inventoryListView;
 	private ProductCatalog productCatalog;
 	private List<Map<String, String>> inventoryList;
 	private Button addProductButton;
-	public static EditText searchBox;
 	private Button scanButton;
 
 	private ViewPager viewPager;
@@ -106,10 +91,10 @@ public class InventoryFragment extends UpdatableFragment {
 		View view = inflater.inflate(R.layout.layout_inventory, container, false);
 
 		res = getResources();
-		inventoryListView = (ListView) view.findViewById(R.id.productListView);
-		addProductButton = (Button) view.findViewById(R.id.addProductButton);
-		scanButton = (Button) view.findViewById(R.id.scanButton);
-		searchBox = (EditText) view.findViewById(R.id.searchBox);
+		inventoryListView = view.findViewById(R.id.productListView);
+		addProductButton = view.findViewById(R.id.addProductButton);
+		scanButton = view.findViewById(R.id.scanButton);
+		searchBox = view.findViewById(R.id.searchBox);
 
 
 		main = (MainActivity) getActivity();
@@ -149,19 +134,19 @@ public class InventoryFragment extends UpdatableFragment {
 			public void onItemClick(AdapterView<?> myAdapter, View myView, int position, long mylng) {
 				int id = Integer.parseInt(inventoryList.get(position).get("id").toString());
 
-				if(Globalclass.isNetworkAvailable(getActivity())&&sync==false){
-					Globalclass.sync_last_orders(getActivity());
-
-				}
-					if(stock.getStockSumById(id) >0)
-					{
+//				if(Globalclass.isNetworkAvailable(getActivity())&&sync==false){
+//					Globalclass.sync_last_orders(getActivity());
+//
+//				}
+//					if(stock.getStockSumById(id) >0)
+//					{
 						register.addItem(productCatalog.getProductById(id), 1);
 						saleFragment.update();
 						viewPager.setCurrentItem(1);
-					}
-					else {
-						Toast.makeText(getActivity(),getResources().getString(R.string.quantityerror),Toast.LENGTH_LONG).show();
-					}
+//					}
+//					else {
+//						Toast.makeText(getActivity(),getResources().getString(R.string.quantityerror),Toast.LENGTH_LONG).show();
+//					}
 
 
 
@@ -195,7 +180,7 @@ public class InventoryFragment extends UpdatableFragment {
 			inventoryList.add(product.toMap());
 		}
 
-		ButtonAdapter sAdap = new ButtonAdapter(getActivity().getBaseContext(), inventoryList,
+		ButtonAdapter sAdap = new ButtonAdapter(Globalclass.activity, inventoryList,
 				R.layout.listview_inventory, new String[]{"name"}, new int[] {R.id.name}, R.id.optionView, "id");
 		inventoryListView.setAdapter(sAdap);
 	}
