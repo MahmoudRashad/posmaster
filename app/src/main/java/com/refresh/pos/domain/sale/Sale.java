@@ -25,12 +25,12 @@ public class Sale {
 	private String endTime;
 	private String status;
 	private List<LineItem> items;
-	
+	private String total_price;
 
 	public Sale(int id, String startTime) {
 		this(id, startTime, startTime, "", new ArrayList<LineItem>());
 	}
-	
+
 	/**
 	 * Constructs a new Sale.
 	 * @param id ID of this Sale.
@@ -46,6 +46,7 @@ public class Sale {
 		this.endTime = endTime;
 		this.items = items;
 	}
+
 /*
 * add sale
 * */
@@ -59,6 +60,11 @@ public class Sale {
 		this.id = id1;
 		try {this.startTime=opj.getString("BookDate");}catch (JSONException e){this.startTime ="";	}
 		try {this.endTime=opj.getString("ValueDate");}catch (JSONException e){this.endTime ="";	}
+		try {
+			this.total_price = opj.getString("TotalAmount");
+		} catch (JSONException e) {
+			this.total_price = "";
+		}
 
 		this.status ="";
 
@@ -81,6 +87,14 @@ public class Sale {
 
 
 
+	}
+
+	public String getTotal_price() {
+		return total_price;
+	}
+
+	public void setTotal_price(String total_price) {
+		this.total_price = total_price;
 	}
 
 	/**
@@ -135,7 +149,15 @@ public class Sale {
 		for(LineItem lineItem : items) {
 			amount += lineItem.getTotalPriceAtSale();
 		}
-		return amount;
+		if (amount > 0)
+			return amount;
+		else {
+			try {
+				return Double.parseDouble(total_price);
+			} catch (Exception e) {
+				return 0.0;
+			}
+		}
 	}
 
 	public int getId() {

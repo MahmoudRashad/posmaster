@@ -111,15 +111,20 @@ public class MainActivity extends FragmentActivity {
 
 	private static void getreports(Activity cont) {
 
-		DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		Date c = Calendar.getInstance().getTime();
+
+		Globalclass.curr_year = Calendar.getInstance().get(Calendar.YEAR);
+
 		Date f;
 		try {
-			f = formatter.parse("01/29/2017");
+			f = formatter.parse(getfromdate("" + Calendar.getInstance().get(Calendar.YEAR)));
+			c = formatter.parse(gettodate("" + Calendar.getInstance().get(Calendar.YEAR)));
 		} catch (ParseException e) {
 			e.printStackTrace();
 			f = new Date();
 		}
-		Date c = Calendar.getInstance().getTime();
+
 
 
 
@@ -141,6 +146,14 @@ public class MainActivity extends FragmentActivity {
 			}
 		});
 		transactoin_manger.get_Transactions(from, to);
+	}
+
+	private static String getfromdate(String s) {
+		return "01/01/" + s;
+	}
+
+	private static String gettodate(String s) {
+		return "31/12/" + s;
 	}
 
 	private static void get_items_from_api(Activity cont) {

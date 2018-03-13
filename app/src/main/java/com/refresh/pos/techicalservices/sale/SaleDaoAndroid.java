@@ -1,6 +1,7 @@
 package com.refresh.pos.techicalservices.sale;
 
 import android.content.ContentValues;
+import android.util.Log;
 
 import com.refresh.pos.domain.DateTimeStrategy;
 import com.refresh.pos.domain.inventory.LineItem;
@@ -67,6 +68,15 @@ public class SaleDaoAndroid implements SaleDao {
 		content.put("end_time", endTime);
 
 		int id = database.insert(DatabaseContents.TABLE_SALE.toString(), content);
+		if (id == -1) {
+			try {
+				database.update(DatabaseContents.TABLE_SALE.toString(), content);
+			} catch (Exception e) {
+				e.printStackTrace();
+				Log.e("startandendSale: ", e.getMessage());
+			}
+		}
+
 		for (int i = 0; i < sale.getAllLineItem().size(); i++) {
 			addLineItem(id, sale.getAllLineItem().get(i));
 		}

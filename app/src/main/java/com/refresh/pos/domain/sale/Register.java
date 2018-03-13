@@ -20,15 +20,15 @@ public class Register {
 	private static Stock stock = null;
 	
 	private Sale currentSale;
-	
+
 	private Register() throws NoDaoSetException {
 		if (!isDaoSet()) {
 			throw new NoDaoSetException();
 		}
 		stock = Inventory.getInstance().getStock();
-		
+
 	}
-	
+
 	/**
 	 * Determines whether the DAO already set or not.
 	 * @return true if the DAO already set; otherwise false.
@@ -47,7 +47,11 @@ public class Register {
 	 * @param dao DAO of sale
 	 */
 	public static void setSaleDao(SaleDao dao) {
-		saleDao = dao;	
+		saleDao = dao;
+	}
+
+	public void setCurrentSaleopj(Sale currentSale) {
+		this.currentSale = currentSale;
 	}
 	
 	/**

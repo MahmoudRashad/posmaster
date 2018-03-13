@@ -1,8 +1,12 @@
 package com.refresh.pos.ui.sale;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,6 +119,30 @@ public class EndPaymentFragmentDialog extends DialogFragment  {
 
 				@Override
 				public void onFailed(String s) {
+					Log.e("onFailed:  ", s);
+
+					AlertDialog.Builder builder;
+					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+						builder = new AlertDialog.Builder(getContext(), android.R.style.Theme_Material_Dialog_Alert);
+					} else {
+						builder = new AlertDialog.Builder(getContext());
+					}
+					builder.setTitle(getResources().getString(R.string.submitordererror))
+							.setMessage(s)
+							.setPositiveButton(getResources().getString(R.string.backtosale), new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int which) {
+									// continue with delete
+									dismiss();
+								}
+							})
+							.setNegativeButton(getResources().getString(R.string.removesale), new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int which) {
+									// do nothing
+									regis.setCurrentSaleopj(null);
+								}
+							})
+							.setIcon(android.R.drawable.ic_dialog_alert)
+							.show();
 
 				}
 			});

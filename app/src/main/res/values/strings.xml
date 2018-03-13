@@ -66,6 +66,9 @@
     <string name="price_type">Price Type</string>
     <string name="store">Store</string>
     <string name="counter">Counter</string>
+    <string name="submitordererror">Submit Oreder Warning</string>
+    <string name="backtosale">Back to Sale</string>
+    <string name="removesale">Remove Sale</string>
 
 
     <string-array name="period">

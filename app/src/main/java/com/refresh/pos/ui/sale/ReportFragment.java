@@ -1,13 +1,9 @@
 package com.refresh.pos.ui.sale;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
-
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,8 +23,14 @@ import com.refresh.pos.R;
 import com.refresh.pos.domain.DateTimeStrategy;
 import com.refresh.pos.domain.sale.Sale;
 import com.refresh.pos.domain.sale.SaleLedger;
+import com.refresh.pos.techicalservices.Globalclass;
 import com.refresh.pos.techicalservices.NoDaoSetException;
 import com.refresh.pos.ui.component.UpdatableFragment;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
 
 /**
  * UI for showing sale's record.
@@ -36,9 +38,13 @@ import com.refresh.pos.ui.component.UpdatableFragment;
  *
  */
 public class ReportFragment extends UpdatableFragment {
-	
-	private SaleLedger saleLedger;
+
+	public static final int DAILY = 0;
+	public static final int WEEKLY = 1;
+	public static final int MONTHLY = 2;
+	public static final int YEARLY = 3;
 	List<Map<String, String>> saleList;
+	private SaleLedger saleLedger;
 	private ListView saleLedgerListView;
 	private TextView totalBox;
 	private Spinner spinner;
@@ -47,11 +53,6 @@ public class ReportFragment extends UpdatableFragment {
 	private TextView currentBox;
 	private Calendar currentTime;
 	private DatePickerDialog datePicker;
-	
-	public static final int DAILY = 0;
-	public static final int WEEKLY = 1;
-	public static final int MONTHLY = 2;
-	public static final int YEARLY = 3;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,13 +64,13 @@ public class ReportFragment extends UpdatableFragment {
 		}
 		
 		View view = inflater.inflate(R.layout.layout_report, container, false);
-		
-		previousButton = (Button) view.findViewById(R.id.previousButton);
-		nextButton = (Button) view.findViewById(R.id.nextButton);
-		currentBox = (TextView) view.findViewById(R.id.currentBox);
-		saleLedgerListView = (ListView) view.findViewById(R.id.saleListView);
-		totalBox = (TextView) view.findViewById(R.id.totalBox);
-		spinner = (Spinner) view.findViewById(R.id.spinner1);
+
+		previousButton = view.findViewById(R.id.previousButton);
+		nextButton = view.findViewById(R.id.nextButton);
+		currentBox = view.findViewById(R.id.currentBox);
+		saleLedgerListView = view.findViewById(R.id.saleListView);
+		totalBox = view.findViewById(R.id.totalBox);
+		spinner = view.findViewById(R.id.spinner1);
 		
 		initUI();
 		return view;
@@ -165,10 +166,14 @@ public class ReportFragment extends UpdatableFragment {
 		List<Sale> list = null;
 		Calendar cTime = (Calendar) currentTime.clone();
 		Calendar eTime = (Calendar) currentTime.clone();
+		if (currentTime.get(Calendar.YEAR) != Globalclass.curr_year) {
+			//TODo reload other year
+		}
 		
 		if(period == DAILY){
 			currentBox.setText(" [" + DateTimeStrategy.getSQLDateFormat(currentTime) +  "] ");
 			currentBox.setTextSize(16);
+			eTime.add(Calendar.DATE, 1);
 		} else if (period == WEEKLY){
 			while(cTime.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
 				cTime.add(Calendar.DATE, -1);
@@ -201,9 +206,17 @@ public class ReportFragment extends UpdatableFragment {
 		double total = 0;
 		for (Sale sale : list)
 			total += sale.getTotal();
-		
+
+		total = ((int) (total * 100)) / 100d; // fix number to 2 digits after point  ex 0.00
+
 		totalBox.setText(total + "");
-		showList(list);
+		try {
+			showList(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.e("update: ", e.getMessage());
+		}
+
 	}
 	
 	@Override

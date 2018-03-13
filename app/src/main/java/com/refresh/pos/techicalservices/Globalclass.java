@@ -4,22 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.provider.ContactsContract;
 import android.util.Log;
 
-import com.refresh.pos.domain.DateTimeStrategy;
 import com.refresh.pos.domain.sale.Sale;
 import com.refresh.pos.domain.sale.SaleLedger;
 import com.refresh.pos.networkmanger.Submit_order_Manger;
 import com.refresh.pos.networkmanger.Transactoin_manger;
-import com.refresh.pos.ui.MainActivity;
 
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by mahmoudrashad on 2/11/2018.
@@ -36,8 +31,9 @@ public class Globalclass {
     public static String wiat_syncserver="wiat_syncserver";
     public static String ENDED="ENDED";
     public static boolean sync=false;
-    static SaleLedger saleLedger=null;
     public static boolean fristlogin=false;
+    public static int curr_year = 2018;
+    static SaleLedger saleLedger = null;
     static String formattedDate;
     private static String startdate="2018-02-01 00:00:00";
 

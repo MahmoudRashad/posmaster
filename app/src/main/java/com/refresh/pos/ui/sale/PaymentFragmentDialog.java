@@ -1,14 +1,9 @@
 package com.refresh.pos.ui.sale;
 
-import com.refresh.pos.R;
-import com.refresh.pos.domain.inventory.KEY_VALUE;
-import com.refresh.pos.networkmanger.Sale_flags;
-import com.refresh.pos.techicalservices.Globalclass;
-import com.refresh.pos.ui.component.UpdatableFragment;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +14,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.refresh.pos.R;
+import com.refresh.pos.domain.inventory.KEY_VALUE;
+import com.refresh.pos.networkmanger.Sale_flags;
+import com.refresh.pos.techicalservices.Globalclass;
+import com.refresh.pos.ui.component.UpdatableFragment;
 
 import java.util.ArrayList;
 
@@ -31,7 +32,9 @@ import static com.refresh.pos.techicalservices.Globalclass.isNetworkAvailable;
  */
 @SuppressLint("ValidFragment")
 public class PaymentFragmentDialog extends DialogFragment {
-	
+
+	Spinner spinner1, spinner2, spinner3;
+	ArrayList<KEY_VALUE> list1, list2, list3;
 	private TextView totalPrice;
 	private EditText input;
 	private Button clearButton;
@@ -39,8 +42,6 @@ public class PaymentFragmentDialog extends DialogFragment {
 	private String strtext;
 	private UpdatableFragment saleFragment;
 	private UpdatableFragment reportFragment;
-	Spinner spinner1,spinner2,spinner3;
-	ArrayList<KEY_VALUE> list1,list2,list3;
 	
 	/**
 	 * Construct a new PaymentFragmentDialog.
@@ -59,25 +60,32 @@ public class PaymentFragmentDialog extends DialogFragment {
 		View v = inflater.inflate(R.layout.dialog_payment, container,false);
 
 
-		spinner1 = (Spinner) v.findViewById(R.id.spinner1);
-		spinner2 = (Spinner) v.findViewById(R.id.spinner2);
-		spinner3 = (Spinner) v.findViewById(R.id.spinner3);
-		if(isNetworkAvailable(getActivity()))
-			fillspaners();
+		spinner1 = v.findViewById(R.id.spinner1);
+		spinner2 = v.findViewById(R.id.spinner2);
+		spinner3 = v.findViewById(R.id.spinner3);
+		try {
+			if (isNetworkAvailable(getActivity()))
+				fillspaners();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.e("onCreateView: ", e.getMessage());
+		}
+
 
 		strtext=getArguments().getString("edttext");
-		input = (EditText) v.findViewById(R.id.dialog_saleInput);
-		totalPrice = (TextView) v.findViewById(R.id.payment_total);
+		input = v.findViewById(R.id.dialog_saleInput);
+		totalPrice = v.findViewById(R.id.payment_total);
 		totalPrice.setText(strtext);
-		clearButton = (Button) v.findViewById(R.id.clearButton);
+		clearButton = v.findViewById(R.id.clearButton);
 		clearButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				end();
 			}
 		});
-		
-		confirmButton = (Button) v.findViewById(R.id.confirmButton);
+
+		confirmButton = v.findViewById(R.id.confirmButton);
+		confirmButton.setEnabled(false);
 		confirmButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -126,6 +134,7 @@ public class PaymentFragmentDialog extends DialogFragment {
 						android.R.layout.simple_spinner_item, list);
 				dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 				spinner3.setAdapter(dataAdapter);
+				confirmButton.setEnabled(true);
 			}
 
 			@Override
@@ -217,6 +226,7 @@ public class PaymentFragmentDialog extends DialogFragment {
 			@Override
 			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 				Globalclass.storeid = list3.get(i).getKey();
+
 			}
 
 			@Override

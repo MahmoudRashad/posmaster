@@ -77,6 +77,7 @@ public class Transactoin_manger {
                                     if (tempj!=null)
                                     {
                                         Sale tmp = new Sale(tempj);
+
                                         regis.ensertendedSale(tmp, Globalclass.ENDED);
                                     }
                                 }
