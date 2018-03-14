@@ -1,46 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/colorPrimary"
     android:layout_height="match_parent"
-    tools:context="com.refresh.pos.ui.LoginActivity"
-    android:fitsSystemWindows="true">
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    tools:context="com.refresh.pos.ui.LoginActivity">
 
 <LinearLayout
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="56dp"
-    android:paddingBottom="56dp"
     android:layout_gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="56dp"
     android:paddingLeft="24dp"
+    android:paddingRight="24dp"
 
-    android:paddingRight="24dp">
+    android:paddingTop="56dp">
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/logo"
-        android:background="@drawable/rounded_bg"
         android:layout_gravity="center"
+        android:background="@drawable/rounded_bg"
+        android:src="@drawable/logo"
         />
 
     <EditText
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/btn_white"
         android:hint="@string/email"
         android:padding="10dp"
-        android:layout_marginBottom="10dp"
           />
 
     <EditText
         android:id="@+id/passWord"
-        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -48,19 +45,27 @@
         android:background="@drawable/btn_white"
         android:hint="@string/password"
         android:inputType="textPassword"
+        android:padding="10dp"
       />
     <Spinner
         android:id="@+id/Branches_sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:layout_marginTop="5dp"
-        android:padding="10dp"
-        android:background="@drawable/btn_white"
-        android:layout_marginBottom="100dp"
-        >
+        android:background="@drawable/btn_white">
 
     </Spinner>
 
+    <Spinner
+        android:id="@+id/lang_sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/btn_white">
+
+    </Spinner>
 
     <Button
         android:id="@+id/loginButton"
@@ -68,10 +73,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="@dimen/_30sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
         android:background="@drawable/btn_blue"
         android:text="@string/login"
 
@@ -80,14 +85,14 @@
     <Button
         android:id="@+id/skipbtn"
         style="@style/ButtonText"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/_30sdp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="@dimen/_30sdp"
         android:background="@drawable/btn_blue"
+        android:visibility="gone"
        />
 
 

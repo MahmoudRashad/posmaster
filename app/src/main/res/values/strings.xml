@@ -70,6 +70,7 @@
     <string name="backtosale">Back to Sale</string>
     <string name="removesale">Remove Sale</string>
     <string name="invalidlogin">Invalid UserName or Password</string>
+    <string name="selectoffice">Select Office</string>
 
 
     <string-array name="period">
@@ -78,6 +79,13 @@
         <item>Monthly</item>
         <item>Yearly</item>
     </string-array>
+
+    <string-array name="lang">
+        <item>Select language </item>
+        <item>Arabic</item>
+        <item>English</item>
+    </string-array>
+
 
     <style name="ButtonText">
         <item name="android:layout_width">fill_parent</item>

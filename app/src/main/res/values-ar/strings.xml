@@ -64,6 +64,14 @@
         <item>شهري</item>
         <item>سنوي</item>
     </string-array>
+
+    <string-array name="lang">
+        <item>اختر اللغة</item>
+        <item>العربية</item>
+        <item>الإنجليزية</item>
+    </string-array>
+
+
     <string name="lang_jp">"صيني "</string>
     <string name="lang_th">يباني</string>
     <string name="price_type">"نوع البيع "</string>
