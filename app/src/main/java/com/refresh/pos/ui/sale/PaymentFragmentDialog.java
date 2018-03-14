@@ -1,6 +1,7 @@
 package com.refresh.pos.ui.sale;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -16,14 +17,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.refresh.pos.R;
+import com.refresh.pos.domain.DateTimeStrategy;
 import com.refresh.pos.domain.inventory.KEY_VALUE;
+import com.refresh.pos.domain.sale.Register;
 import com.refresh.pos.networkmanger.Sale_flags;
+import com.refresh.pos.networkmanger.Submit_order_Manger;
 import com.refresh.pos.techicalservices.Globalclass;
+import com.refresh.pos.techicalservices.NoDaoSetException;
+import com.refresh.pos.ui.MainActivity;
 import com.refresh.pos.ui.component.UpdatableFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static com.refresh.pos.techicalservices.Globalclass.isNetworkAvailable;
+import static com.refresh.pos.techicalservices.Globalclass.sync;
 
 /**
  * A dialog for input a money for sale.
@@ -42,6 +54,8 @@ public class PaymentFragmentDialog extends DialogFragment {
 	private String strtext;
 	private UpdatableFragment saleFragment;
 	private UpdatableFragment reportFragment;
+
+	private Register regis;
 	
 	/**
 	 * Construct a new PaymentFragmentDialog.
@@ -58,7 +72,11 @@ public class PaymentFragmentDialog extends DialogFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.dialog_payment, container,false);
-
+		try {
+			regis = Register.getInstance();
+		} catch (NoDaoSetException e) {
+			e.printStackTrace();
+		}
 
 		spinner1 = v.findViewById(R.id.spinner1);
 		spinner2 = v.findViewById(R.id.spinner2);
@@ -97,18 +115,107 @@ public class PaymentFragmentDialog extends DialogFragment {
 					Toast.makeText(getActivity().getBaseContext(), getResources().getString(R.string.please_input_all), Toast.LENGTH_SHORT).show();
 					return;
 				}
-				double a = Double.parseDouble(strtext);
-				double b = Double.parseDouble(inputString);
+				final double a = Double.parseDouble(strtext);
+				final double b = Double.parseDouble(inputString);
 				if (b < a) {
 					Toast.makeText(getActivity().getBaseContext(), getResources().getString(R.string.need_money) + " " + (b - a), Toast.LENGTH_SHORT).show();
 				} else {
-					Bundle bundle = new Bundle();
-					bundle.putString("edttext", b - a + "");
-					bundle.putString("totalprice", strtext);
-					EndPaymentFragmentDialog newFragment = new EndPaymentFragmentDialog(
-							saleFragment, reportFragment);
-					newFragment.setArguments(bundle);
-					newFragment.show(getFragmentManager(), "");
+
+
+					/////////////////
+					if (Globalclass.isNetworkAvailable(getActivity())) {
+						//get time
+						Date c = Calendar.getInstance().getTime();
+
+
+						SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+						String formattedDate = df.format(c);
+
+
+						final SweetAlertDialog pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+						pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+						pDialog.setTitleText("Loading");
+						pDialog.setCancelable(false);
+						pDialog.show();
+
+						Submit_order_Manger submit_order_manger = new Submit_order_Manger(getActivity());
+						submit_order_manger.setListener(new Submit_order_Manger.mycustomer_click_lisner() {
+							@Override
+							public void onObjectReady(String response) {
+								pDialog.setTitleText(getResources().getString(R.string.change) + "   " + (b - a))
+										.setConfirmText("Done")
+										.setConfirmClickListener(null)
+										.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+								if (response != "") {
+									regis.endSale(DateTimeStrategy.getCurrentTime(), Globalclass.ENDED);
+									saleFragment.update();
+									reportFragment.update();
+//					Toast.makeText(getActivity(),getResources().getString(R.string.orderSubmited),Toast.LENGTH_LONG).show();
+									if (sync == false)
+										MainActivity.refresh(getActivity());
+////									dismiss();
+//									Bundle bundle = new Bundle();
+//									bundle.putString("edttext", b - a + "");
+//									bundle.putString("totalprice", strtext);
+//									EndPaymentFragmentDialog newFragment = new EndPaymentFragmentDialog(
+//											saleFragment, reportFragment);
+//									newFragment.setArguments(bundle);
+//									newFragment.show(getFragmentManager(), "");
+									end();
+								}
+
+
+							}
+
+
+							@Override
+							public void onFailed(String s) {
+								pDialog.setTitleText(getResources().getString(R.string.submitordererror))
+										.setContentText(s)
+										.setConfirmText("Done")
+										.setConfirmClickListener(null)
+										.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+
+								Log.e("onFailed:  ", s);
+
+
+//
+//								Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
+//
+//								Bundle bundle = new Bundle();
+//								bundle.putString("massaget", s);
+//								bundle.putString("totalprice", "");
+//								SubmitOrderErrorDialog newFragment = new SubmitOrderErrorDialog(
+//										saleFragment, reportFragment);
+//								newFragment.setArguments(bundle);
+//								newFragment.show(getFragmentManager(), "");
+
+
+							}
+						});
+						double Tender = regis.getTotal() + Double.parseDouble((b - a) + "");
+						submit_order_manger.Submit_order(regis.getCurrentSale(), (b - a) + "", Globalclass.counterid,
+								"DEFAULT", "" + Tender, formattedDate);
+
+					} else {
+
+						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.network_error_contant), Toast.LENGTH_LONG).show();
+//			regis.endSale(DateTimeStrategy.getCurrentTime(),Globalclass.wiat_syncserver);
+//			saleFragment.update();
+//			reportFragment.update();
+//			this.dismiss();
+
+					}
+
+					//////////////////////////
+
+//					Bundle bundle = new Bundle();
+//					bundle.putString("edttext", b - a + "");
+//					bundle.putString("totalprice", strtext);
+//					EndPaymentFragmentDialog newFragment = new EndPaymentFragmentDialog(
+//							saleFragment, reportFragment);
+//					newFragment.setArguments(bundle);
+//					newFragment.show(getFragmentManager(), "");
 //					end();
 				}
 
@@ -121,6 +228,8 @@ public class PaymentFragmentDialog extends DialogFragment {
 	 * End.
 	 */
 	private void end() {
+
+
 		this.dismiss();
 		
 	}

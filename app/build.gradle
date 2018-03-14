@@ -19,6 +19,7 @@ android {
 }
 repositories {
     mavenCentral()
+
 }
 dependencies {
     //noinspection GradleCompatible
@@ -31,6 +32,8 @@ dependencies {
     compile 'com.amitshekhar.android:android-networking:1.0.1'
 
     compile 'com.journeyapps:zxing-android-embedded:3.5.0'
+
+    compile 'com.github.f0ris.sweetalert:library:1.5.1'
 
 
 

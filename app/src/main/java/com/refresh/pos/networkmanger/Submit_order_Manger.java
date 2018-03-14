@@ -44,6 +44,7 @@ public class Submit_order_Manger {
                              String date
                                ){
 
+
         JSONObject jsonopj=new JSONObject();
         JSONArray arropj= sale.itemstoJSONArray();
         try {

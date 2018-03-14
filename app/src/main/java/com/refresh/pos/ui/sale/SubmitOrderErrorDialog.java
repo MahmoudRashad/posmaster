@@ -62,6 +62,7 @@ public class SubmitOrderErrorDialog extends DialogFragment {
                 end();
             }
         });
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogTheme);
 
         return v;
     }
