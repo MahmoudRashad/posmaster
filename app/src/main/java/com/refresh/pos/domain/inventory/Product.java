@@ -47,10 +47,14 @@ public class Product {
 		try {this.barcode = opj.getString("Barcode");} catch (JSONException e) {e.printStackTrace();barcode = "";
 		}
 
-		if (opj.has("CostPrice"))
-			try {this.unitPrice = opj.getDouble("CostPrice");} catch (JSONException e) {e.printStackTrace();unitPrice= 0.0;
-			}
-		else
+        if (opj.has("SellingPrice"))
+            try {
+                this.unitPrice = opj.getDouble("SellingPrice");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                unitPrice = 0.0;
+            }
+        else
 			try {
 				this.unitPrice = opj.getDouble("Price");
 			} catch (JSONException e) {

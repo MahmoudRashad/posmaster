@@ -104,11 +104,12 @@ public class PaymentFragmentDialog extends DialogFragment {
 				} else {
 					Bundle bundle = new Bundle();
 					bundle.putString("edttext", b - a + "");
+					bundle.putString("totalprice", strtext);
 					EndPaymentFragmentDialog newFragment = new EndPaymentFragmentDialog(
 							saleFragment, reportFragment);
 					newFragment.setArguments(bundle);
 					newFragment.show(getFragmentManager(), "");
-					end();
+//					end();
 				}
 
 			}
@@ -129,21 +130,29 @@ public class PaymentFragmentDialog extends DialogFragment {
 		sale_flags3.setCustomObjectListener(new Sale_flags.MyCustomObjectListener() {
 			@Override
 			public void onObjectReady(ArrayList<KEY_VALUE> list) {
-				list3=list;
-				ArrayAdapter<KEY_VALUE> dataAdapter = new ArrayAdapter<KEY_VALUE>(getActivity(),
-						android.R.layout.simple_spinner_item, list);
-				dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				spinner3.setAdapter(dataAdapter);
-				confirmButton.setEnabled(true);
+				try {
+					list3 = list;
+					ArrayAdapter<KEY_VALUE> dataAdapter = new ArrayAdapter<KEY_VALUE>(getActivity(),
+							android.R.layout.simple_spinner_item, list);
+					dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+					spinner3.setAdapter(dataAdapter);
+					confirmButton.setEnabled(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 
 			@Override
 			public void onFailed(String title) {
-				ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
-						android.R.layout.simple_spinner_item,new String[]{"No data"} );
-				dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				spinner3.setAdapter(dataAdapter);
-				Toast.makeText(getActivity(),title,Toast.LENGTH_SHORT).show();
+				try {
+					ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
+							android.R.layout.simple_spinner_item, new String[]{"No data"});
+					dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+					spinner3.setAdapter(dataAdapter);
+					Toast.makeText(getActivity(), title, Toast.LENGTH_SHORT).show();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 
@@ -153,22 +162,31 @@ public class PaymentFragmentDialog extends DialogFragment {
 			@Override
 			public void onObjectReady(ArrayList<KEY_VALUE> list) {
 				list1=list;
-				ArrayAdapter<KEY_VALUE> dataAdapter = new ArrayAdapter<KEY_VALUE>(getActivity(),
-						android.R.layout.simple_spinner_item, list);
-				dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				spinner1.setAdapter(dataAdapter);
+				try {
+					ArrayAdapter<KEY_VALUE> dataAdapter = new ArrayAdapter<KEY_VALUE>(getActivity(),
+							android.R.layout.simple_spinner_item, list);
+					dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+					spinner1.setAdapter(dataAdapter);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 			}
 
 			@Override
 			public void onFailed(String title) {
 
+				try {
+					ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
+							android.R.layout.simple_spinner_item, new String[]{"No data"});
+					dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+					spinner1.setAdapter(dataAdapter);
 
-				ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
-						android.R.layout.simple_spinner_item,new String[]{"No data"} );
-				dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				spinner1.setAdapter(dataAdapter);
+					Toast.makeText(getActivity(), title, Toast.LENGTH_SHORT).show();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
-				Toast.makeText(getActivity(),title,Toast.LENGTH_SHORT).show();
 			}
 		});
 		sale_flags1.get_spaner1_data();
@@ -178,20 +196,28 @@ public class PaymentFragmentDialog extends DialogFragment {
 		sale_flags2.setCustomObjectListener(new Sale_flags.MyCustomObjectListener() {
 			@Override
 			public void onObjectReady(ArrayList<KEY_VALUE> list) {
-				list2=list;
-				ArrayAdapter<KEY_VALUE> dataAdapter = new ArrayAdapter<KEY_VALUE>(getActivity(),
-						android.R.layout.simple_spinner_item, list);
-				dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				spinner2.setAdapter(dataAdapter);
+				try {
+					list2 = list;
+					ArrayAdapter<KEY_VALUE> dataAdapter = new ArrayAdapter<KEY_VALUE>(getActivity(),
+							android.R.layout.simple_spinner_item, list);
+					dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+					spinner2.setAdapter(dataAdapter);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 
 			@Override
 			public void onFailed(String title) {
-				ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
-						android.R.layout.simple_spinner_item,new String[]{"No data"} );
-				dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				spinner2.setAdapter(dataAdapter);
-				Toast.makeText(getActivity(),title,Toast.LENGTH_SHORT).show();
+				try {
+					ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
+							android.R.layout.simple_spinner_item, new String[]{"No data"});
+					dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+					spinner2.setAdapter(dataAdapter);
+					Toast.makeText(getActivity(), title, Toast.LENGTH_SHORT).show();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		sale_flags2.get_spaner2_data();

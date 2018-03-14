@@ -107,6 +107,7 @@ public class MainActivity extends FragmentActivity {
 		} else {
 			Toast.makeText(cont, cont.getResources().getString(R.string.network_error_contant), Toast.LENGTH_SHORT).show();
 		}
+		Globalclass.fristlogin = false;
 	}
 
 	private static void getreports(Activity cont) {
@@ -248,7 +249,9 @@ public class MainActivity extends FragmentActivity {
 					}
 				});
 		viewPager.setCurrentItem(1);
-		if (Globalclass.fristlogin){refresh(MainActivity.this);Globalclass.fristlogin=false;}
+		if (Globalclass.fristlogin) {
+			refresh(MainActivity.this);
+		}
 	}
 
 	@Override

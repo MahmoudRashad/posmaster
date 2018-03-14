@@ -102,12 +102,36 @@ public class Submit_order_Manger {
                         Log.d("apidata", response.toString());
                     }
                     @Override
-                    public void onError(ANError anError) {
+                    public void onError(final ANError anError) {
                         try {
                             if (listener != null){
-                                listener.onFailed(anError.getErrorBody().toString());
+                                listener.onFailed(anError.getErrorBody());
+
+//                                AlertDialog.Builder builder;
+//                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                                    builder = new AlertDialog.Builder(activity, android.R.style.Theme_Material_Dialog_Alert);
+//                                } else {
+//                                    builder = new AlertDialog.Builder(activity);
+//                                }
+//                                builder.setTitle(activity.getResources().getString(R.string.submitordererror))
+//                                        .setMessage(anError.getMessage())
+//                                        .setPositiveButton(activity.getResources().getString(R.string.backtosale), new DialogInterface.OnClickListener() {
+//                                            public void onClick(DialogInterface dialog, int which) {
+//                                                // continue with delete
+//                                                listener.onFailed(anError.getErrorBody().toString());
+//                                            }
+//                                        })
+//                                        .setNegativeButton(activity.getResources().getString(R.string.removesale), new DialogInterface.OnClickListener() {
+//                                            public void onClick(DialogInterface dialog, int which) {
+//                                                // do nothing
+////                                                regis.setCurrentSaleopj(null);
+//                                            }
+//                                        })
+//                                        .setIcon(android.R.drawable.ic_dialog_alert)
+//                                        .show();
                             }
                         }catch (Exception e) { // handle error
+                            e.printStackTrace();
                             Log.d("apidata", anError.getErrorBody().toString());
                         }
 

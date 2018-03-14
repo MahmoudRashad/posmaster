@@ -150,7 +150,7 @@ public class Sale {
 			amount += lineItem.getTotalPriceAtSale();
 		}
 		if (amount > 0)
-			return amount;
+			return amount * 1.05;
 		else {
 			try {
 				return Double.parseDouble(total_price);

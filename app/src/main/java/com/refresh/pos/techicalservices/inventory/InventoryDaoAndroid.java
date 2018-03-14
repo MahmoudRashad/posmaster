@@ -1,8 +1,5 @@
 package com.refresh.pos.techicalservices.inventory;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.util.Log;
 
@@ -10,6 +7,9 @@ import com.refresh.pos.domain.inventory.Product;
 import com.refresh.pos.domain.inventory.ProductLot;
 import com.refresh.pos.techicalservices.Database;
 import com.refresh.pos.techicalservices.DatabaseContents;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * DAO used by android for Inventory.
@@ -39,7 +39,12 @@ public class InventoryDaoAndroid implements InventoryDao {
         content.put("status", "ACTIVE");
         
         int id = database.insert(DatabaseContents.TABLE_PRODUCT_CATALOG.toString(), content);
-        
+        try {
+            if (id == -1)
+                database.update(DatabaseContents.TABLE_PRODUCT_CATALOG.toString(), content);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         
     	ContentValues content2 = new ContentValues();
         content2.put("_id", id);

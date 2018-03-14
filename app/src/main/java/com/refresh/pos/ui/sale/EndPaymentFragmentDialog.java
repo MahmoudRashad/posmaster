@@ -1,11 +1,8 @@
 package com.refresh.pos.ui.sale;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +34,7 @@ import static com.refresh.pos.techicalservices.Globalclass.sync;
 @SuppressLint("ValidFragment")
 public class EndPaymentFragmentDialog extends DialogFragment  {
 
+	String totalprice;
 	private Button doneButton;
 	private TextView chg;
 	private Register regis;
@@ -65,7 +63,8 @@ public class EndPaymentFragmentDialog extends DialogFragment  {
 		
 		View v = inflater.inflate(R.layout.dialog_paymentsuccession, container,false);
 		String strtext=getArguments().getString("edttext");
-        chg = v.findViewById(R.id.changeTxt);
+		totalprice = getArguments().getString("totalprice");
+		chg = v.findViewById(R.id.changeTxt);
         chg.setText(strtext);
         doneButton = v.findViewById(R.id.doneButton);
         doneButton.setOnClickListener(new View.OnClickListener() {
@@ -120,35 +119,24 @@ public class EndPaymentFragmentDialog extends DialogFragment  {
 				@Override
 				public void onFailed(String s) {
 					Log.e("onFailed:  ", s);
+					Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
 
-					AlertDialog.Builder builder;
-					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-						builder = new AlertDialog.Builder(getContext(), android.R.style.Theme_Material_Dialog_Alert);
-					} else {
-						builder = new AlertDialog.Builder(getContext());
-					}
-					builder.setTitle(getResources().getString(R.string.submitordererror))
-							.setMessage(s)
-							.setPositiveButton(getResources().getString(R.string.backtosale), new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog, int which) {
-									// continue with delete
-									dismiss();
-								}
-							})
-							.setNegativeButton(getResources().getString(R.string.removesale), new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog, int which) {
-									// do nothing
-									regis.setCurrentSaleopj(null);
-								}
-							})
-							.setIcon(android.R.drawable.ic_dialog_alert)
-							.show();
+					Bundle bundle = new Bundle();
+					bundle.putString("massaget", s);
+					bundle.putString("totalprice", totalprice);
+					SubmitOrderErrorDialog newFragment = new SubmitOrderErrorDialog(
+							saleFragment, reportFragment);
+					newFragment.setArguments(bundle);
+					newFragment.show(getFragmentManager(), "");
+
+
+					dismiss();
 
 				}
 			});
 			double Tender = regis.getTotal() + Double.parseDouble (chg.getText().toString());
 			submit_order_manger.Submit_order(regis.getCurrentSale(),chg.getText().toString(),Globalclass.counterid,
-					"JOTAY",""+Tender,formattedDate);
+					"DEFAULT", "" + Tender, formattedDate);
 
 		}else{
 
