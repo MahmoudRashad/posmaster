@@ -2,6 +2,7 @@ package com.refresh.pos.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.refresh.pos.R;
 import com.refresh.pos.domain.Branche;
@@ -18,11 +18,9 @@ import com.refresh.pos.networkmanger.Get_Branches_Manger;
 import com.refresh.pos.networkmanger.LogInManager;
 import com.refresh.pos.techicalservices.Globalclass;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 public class LoginActivity extends Activity {
@@ -123,6 +121,11 @@ public class LoginActivity extends Activity {
 
         if (validation()) {
 
+            final SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            pDialog.setTitleText("Loading");
+            pDialog.setCancelable(true);
+            pDialog.show();
 
             LogInManager logInManager = new LogInManager(LoginActivity.this);
             logInManager.setCustomObjectListener(new LogInManager.MyCustomObjectListener() {
@@ -130,9 +133,14 @@ public class LoginActivity extends Activity {
                 public void onObjectReady(String title) {
 
 
+                    pDialog.setTitleText(title)
+                            .setConfirmText(getResources().getString(R.string.dialog_ok))
+                            .setConfirmClickListener(null)
+                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
 
                         Log.d("onObjectReady: ",title);
                         go();
+                    pDialog.dismiss();
 
 
 
@@ -141,13 +149,11 @@ public class LoginActivity extends Activity {
                 @Override
                 public void onFailed(String jsobnMessage) {
                     try {
-                        JSONObject json = new JSONObject(jsobnMessage);
-                        String title = "Message";
-                        String message = "";
-                        if (json.has("Message")) {
-                            
-                            message = json.getString("Message");
-                        }
+
+                        pDialog.setTitleText(getResources().getString(R.string.invalidlogin))
+                                .setConfirmText(getResources().getString(R.string.dialog_ok))
+                                .setConfirmClickListener(null)
+                                .changeAlertType(SweetAlertDialog.ERROR_TYPE);
 
 //                        new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.WARNING_TYPE)
 //                                .setTitleText(title)
@@ -160,10 +166,10 @@ public class LoginActivity extends Activity {
 //                                    }
 //                                })
 //                                .show();
-                        Toast.makeText(LoginActivity.this,message,Toast.LENGTH_LONG).show();
+//                        Toast.makeText(LoginActivity.this,message,Toast.LENGTH_LONG).show();
 
 
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }

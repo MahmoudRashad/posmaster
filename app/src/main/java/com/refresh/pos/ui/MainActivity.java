@@ -57,6 +57,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 import static com.refresh.pos.techicalservices.Globalclass.sync;
 import static com.refresh.pos.ui.MainActivity.reportFragment;
 import static com.refresh.pos.ui.MainActivity.saleFragment;
@@ -72,6 +74,7 @@ import static com.refresh.pos.ui.MainActivity.saleFragment;
 public class MainActivity extends FragmentActivity {
 
 	public static UpdatableFragment reportFragment, saleFragment;
+	static SweetAlertDialog reloadD;
 	private static boolean SDK_SUPPORTED;
 	private ViewPager viewPager;
 	private ProductCatalog productCatalog;
@@ -82,6 +85,12 @@ public class MainActivity extends FragmentActivity {
 
 	public static void refresh(final Activity cont) {
 		if (Globalclass.isNetworkAvailable(cont)) {
+
+			reloadD = new SweetAlertDialog(cont, SweetAlertDialog.PROGRESS_TYPE);
+			reloadD.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+			reloadD.setTitleText("Loading");
+			reloadD.setCancelable(false);
+			reloadD.show();
 
 			if (Looper.myLooper() == Looper.getMainLooper()) {
 				Thread task = new Thread() {
@@ -133,17 +142,21 @@ public class MainActivity extends FragmentActivity {
 		String to = df.format(c);
 		String from = df.format(f);
 
+
 		Transactoin_manger transactoin_manger = new Transactoin_manger(cont);
 		transactoin_manger.setListener(new Transactoin_manger.mycustomer_click_lisner() {
 			@Override
 			public void onObjectReady(String response) {
 				saleFragment.update();
 				reportFragment.update();
+				if (reloadD.isShowing())
+					reloadD.dismiss();
 			}
 
 			@Override
 			public void onFailed(String s) {
-
+				if (reloadD.isShowing())
+					reloadD.dismiss();
 			}
 		});
 		transactoin_manger.get_Transactions(from, to);
@@ -175,12 +188,15 @@ public class MainActivity extends FragmentActivity {
 					Log.e("on ObjectRead:get items", e.getMessage());
 					e.printStackTrace();
 				}
+				if (reloadD.isShowing())
+					reloadD.dismiss();
 			}
 
 			@Override
 			public void onFailed(String title) {
 				Log.e("onFailed:get items", title);
-
+				if (reloadD.isShowing())
+					reloadD.dismiss();
 			}
 		});
 		all_items_manger.get_items_list();

@@ -27,6 +27,7 @@ import com.refresh.pos.techicalservices.NoDaoSetException;
 import com.refresh.pos.ui.MainActivity;
 import com.refresh.pos.ui.component.UpdatableFragment;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -142,7 +143,12 @@ public class PaymentFragmentDialog extends DialogFragment {
 						submit_order_manger.setListener(new Submit_order_Manger.mycustomer_click_lisner() {
 							@Override
 							public void onObjectReady(String response) {
-								pDialog.setTitleText(getResources().getString(R.string.change) + "   " + (b - a))
+
+								float f = (float) (b - a);
+								DecimalFormat df = new DecimalFormat("#.00");
+
+
+								pDialog.setTitleText(getResources().getString(R.string.change) + "   " + df.format(f))
 										.setConfirmText("Done")
 										.setConfirmClickListener(null)
 										.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
@@ -172,7 +178,7 @@ public class PaymentFragmentDialog extends DialogFragment {
 							public void onFailed(String s) {
 								pDialog.setTitleText(getResources().getString(R.string.submitordererror))
 										.setContentText(s)
-										.setConfirmText("Done")
+										.setConfirmText(getResources().getString(R.string.confirm))
 										.setConfirmClickListener(null)
 										.changeAlertType(SweetAlertDialog.ERROR_TYPE);
 

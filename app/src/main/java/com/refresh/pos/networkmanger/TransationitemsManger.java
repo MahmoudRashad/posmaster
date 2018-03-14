@@ -1,6 +1,7 @@
 package com.refresh.pos.networkmanger;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.util.Log;
 
 import com.androidnetworking.AndroidNetworking;
@@ -13,6 +14,8 @@ import com.refresh.pos.techicalservices.URLS;
 import com.refresh.pos.techicalservices.utils.LoginSharedPreferences;
 
 import org.json.JSONArray;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static com.refresh.pos.networkmanger.cookes.okHttpClient;
 
@@ -42,6 +45,12 @@ public class TransationitemsManger {
 
     public void Transationitem(String TranId) {
 
+        final SweetAlertDialog reloadD = new SweetAlertDialog(activity, SweetAlertDialog.PROGRESS_TYPE);
+        reloadD.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        reloadD.setTitleText("Loading");
+        reloadD.setCancelable(false);
+        reloadD.show();
+
         AndroidNetworking.post(URLS.transationitem)
                 .addBodyParameter("TranId", TranId)
                 .setOkHttpClient(okHttpClient)
@@ -59,6 +68,7 @@ public class TransationitemsManger {
                                 listener.onObjectReady(response);
                             }
                         }
+                        reloadD.dismiss();
 
                         // do anything with response
                         Log.d("apidata", response.toString());
@@ -70,6 +80,7 @@ public class TransationitemsManger {
                         if (listener != null)
                             listener.onFailed(anError.getMessage());
                         Log.d("apidata", anError.getResponse().toString());
+                        reloadD.dismiss();
                     }
                 });
 

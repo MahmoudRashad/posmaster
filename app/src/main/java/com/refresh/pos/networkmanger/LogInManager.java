@@ -108,7 +108,8 @@ public class LogInManager {
                         try {
 
                             if (listener != null){
-                                listener.onFailed(anError.getErrorBody().toString());
+
+                                listener.onFailed(anError.getErrorBody().toString() + "  " + anError.getMessage());
                             }
                         }catch (Exception e) {
                             // handle error

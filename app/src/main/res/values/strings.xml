@@ -69,6 +69,7 @@
     <string name="submitordererror">Submit Oreder Warning</string>
     <string name="backtosale">Back to Sale</string>
     <string name="removesale">Remove Sale</string>
+    <string name="invalidlogin">Invalid UserName or Password</string>
 
 
     <string-array name="period">

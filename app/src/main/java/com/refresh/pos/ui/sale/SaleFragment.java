@@ -1,9 +1,5 @@
 package com.refresh.pos.ui.sale;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -16,24 +12,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.refresh.pos.R;
-import com.refresh.pos.domain.inventory.KEY_VALUE;
 import com.refresh.pos.domain.inventory.LineItem;
 import com.refresh.pos.domain.sale.Register;
-import com.refresh.pos.networkmanger.Sale_flags;
 import com.refresh.pos.techicalservices.NoDaoSetException;
 import com.refresh.pos.ui.MainActivity;
 import com.refresh.pos.ui.component.UpdatableFragment;
 
-import static com.refresh.pos.techicalservices.Globalclass.isNetworkAvailable;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * UI for Sale operation.
@@ -73,10 +68,10 @@ public class SaleFragment extends UpdatableFragment {
 		View view = inflater.inflate(R.layout.layout_sale, container, false);
 		
 		res = getResources();
-		saleListView = (ListView) view.findViewById(R.id.sale_List);
-		totalPrice = (TextView) view.findViewById(R.id.totalPrice);
-		clearButton = (Button) view.findViewById(R.id.clearButton);
-		endButton = (Button) view.findViewById(R.id.endButton);
+		saleListView = view.findViewById(R.id.sale_List);
+		totalPrice = view.findViewById(R.id.totalPrice);
+		clearButton = view.findViewById(R.id.clearButton);
+		endButton = view.findViewById(R.id.endButton);
 
 
 		initUI();
@@ -187,7 +182,10 @@ public class SaleFragment extends UpdatableFragment {
 	 */
 	public void showPopup(View anchorView) {
 		Bundle bundle = new Bundle();
-		bundle.putString("edttext", totalPrice.getText().toString());
+
+		float f = Float.parseFloat(totalPrice.getText().toString());
+		DecimalFormat df = new DecimalFormat("#.00");
+		bundle.putString("edttext", df.format(f) + "");
 		PaymentFragmentDialog newFragment = new PaymentFragmentDialog(SaleFragment.this, reportFragment);
 		newFragment.setArguments(bundle);
 		newFragment.show(getFragmentManager(), "");
@@ -197,7 +195,9 @@ public class SaleFragment extends UpdatableFragment {
 	public void update() {
 		if(register.hasSale()){
 			showList(register.getCurrentSale().getAllLineItem());
-			totalPrice.setText(register.getTotal() + "");
+			float f = (float) (register.getTotal());
+			DecimalFormat df = new DecimalFormat("#.00");
+			totalPrice.setText(df.format(f) + "");
 		}
 		else{
 			showList(new ArrayList<LineItem>());
