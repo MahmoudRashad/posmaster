@@ -117,7 +117,7 @@ public class LoginActivity extends Activity {
     private void get_Branches() {
         final SweetAlertDialog pDialog = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-        pDialog.setTitleText("Loading");
+        pDialog.setTitleText(getResources().getString(R.string.LOADING));
         pDialog.setCancelable(false);
         pDialog.show();
 
@@ -201,7 +201,7 @@ public class LoginActivity extends Activity {
 
             final SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
             pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-            pDialog.setTitleText("Loading");
+            pDialog.setTitleText(getResources().getString(R.string.LOADING));
             pDialog.setCancelable(true);
             pDialog.show();
 

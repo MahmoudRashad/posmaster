@@ -58,12 +58,22 @@ public class Sale {
 			e.printStackTrace();
 			}
 		this.id = id1;
-		try {this.startTime=opj.getString("BookDate");}catch (JSONException e){this.startTime ="";	}
+
+//		try {this.startTime=opj.getString("BookDate");}catch (JSONException e){this.startTime ="";	}
+
 		try {this.endTime=opj.getString("ValueDate");}catch (JSONException e){this.endTime ="";	}
 		try {
 			this.total_price = opj.getString("TotalAmount");
 		} catch (JSONException e) {
 			this.total_price = "";
+		}
+
+		try {
+			String tmp = opj.getString("TranCode");
+			String[] date = tmp.split("-");
+			this.startTime = date[1] + "-" + date[2] + "-" + date[3] + " " + date[7] + ":" + date[8] + ":" + date[9];
+		} catch (JSONException e) {
+			this.startTime = "";
 		}
 
 		this.status ="";

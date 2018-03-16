@@ -8,6 +8,7 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
+import com.refresh.pos.R;
 import com.refresh.pos.domain.sale.Register;
 import com.refresh.pos.techicalservices.NoDaoSetException;
 import com.refresh.pos.techicalservices.URLS;
@@ -47,7 +48,7 @@ public class TransationitemsManger {
 
         final SweetAlertDialog reloadD = new SweetAlertDialog(activity, SweetAlertDialog.PROGRESS_TYPE);
         reloadD.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-        reloadD.setTitleText("Loading");
+        reloadD.setTitleText(activity.getResources().getString(R.string.LOADING));
         reloadD.setCancelable(false);
         reloadD.show();
 

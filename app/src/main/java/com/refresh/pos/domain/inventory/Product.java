@@ -44,8 +44,12 @@ public class Product {
 	public Product(JSONObject opj) {
 		try {this.id = opj.getInt("ItemId");} catch (JSONException e) {e.printStackTrace();id=UNDEFINED_ID;}
 		try {this.name = opj.getString("ItemName");} catch (JSONException e) {e.printStackTrace();name="";}
-		try {this.barcode = opj.getString("Barcode");} catch (JSONException e) {e.printStackTrace();barcode = "";
-		}
+        try {
+            this.barcode = opj.getString("ItemCode");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            barcode = "";
+        }
 
         if (opj.has("SellingPrice"))
             try {

@@ -1,11 +1,13 @@
 package com.refresh.pos.ui;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -88,7 +90,7 @@ public class MainActivity extends FragmentActivity {
 
 			reloadD = new SweetAlertDialog(cont, SweetAlertDialog.PROGRESS_TYPE);
 			reloadD.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-			reloadD.setTitleText("Loading");
+			reloadD.setTitleText(cont.getResources().getString(R.string.LOADING));
 			reloadD.setCancelable(false);
 			reloadD.show();
 
@@ -119,17 +121,17 @@ public class MainActivity extends FragmentActivity {
 		Globalclass.fristlogin = false;
 	}
 
-	private static void getreports(Activity cont) {
+	public static void getreports(Activity cont) {
 
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		Date c = Calendar.getInstance().getTime();
 
-		Globalclass.curr_year = Calendar.getInstance().get(Calendar.YEAR);
+
 
 		Date f;
 		try {
-			f = formatter.parse(getfromdate("" + Calendar.getInstance().get(Calendar.YEAR)));
-			c = formatter.parse(gettodate("" + Calendar.getInstance().get(Calendar.YEAR)));
+			f = formatter.parse(getfromdate("" + Globalclass.curr_year));
+			c = formatter.parse(gettodate("" + Globalclass.curr_year));
 		} catch (ParseException e) {
 			e.printStackTrace();
 			f = new Date();
@@ -147,7 +149,7 @@ public class MainActivity extends FragmentActivity {
 		transactoin_manger.setListener(new Transactoin_manger.mycustomer_click_lisner() {
 			@Override
 			public void onObjectReady(String response) {
-				saleFragment.update();
+
 				reportFragment.update();
 				if (reloadD.isShowing())
 					reloadD.dismiss();
@@ -204,6 +206,25 @@ public class MainActivity extends FragmentActivity {
 
 	}
 
+	public static void go_logout(Activity activity) {
+		//free data
+		DatabaseExecutor.getInstance().dropAllData();
+		//logout
+		LoginSharedPreferences temp = new LoginSharedPreferences(activity);
+		temp.removeLogin(activity);
+		logout_Manger logout_manger = new logout_Manger(activity);
+		logout_manger.logout();
+		go(activity);
+	}
+
+	private static void go(Activity activity) {
+
+		Intent newActivity = new Intent(activity,
+				LoginActivity.class);
+		activity.startActivity(newActivity);
+		activity.finish();
+	}
+
 	@SuppressLint("NewApi")
 	/**
 	 * Initiate this UI.
@@ -245,6 +266,13 @@ public class MainActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
+		String lang = LanguageController.getInstance().getLanguage();
+		if (lang.equals("ar"))
+			forceRTLIfSupported();
+		else
+			forceLTRIfSupported();
+
 		res = getResources();
 
 		setContentView(R.layout.layout_main);
@@ -265,6 +293,7 @@ public class MainActivity extends FragmentActivity {
 					}
 				});
 		viewPager.setCurrentItem(1);
+		Globalclass.curr_year = Calendar.getInstance().get(Calendar.YEAR);
 		if (Globalclass.fristlogin) {
 			refresh(MainActivity.this);
 		}
@@ -392,7 +421,16 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu){
 		MenuInflater inflater = getMenuInflater();
+
 		inflater.inflate(R.menu.main, menu);
+
+		String lang = LanguageController.getInstance().getLanguage();
+		if (lang.equals("en")) {
+			menu.findItem(R.id.lang_en).setVisible(false);
+		}
+		if (lang.equals("ar")) {
+			menu.findItem(R.id.lang_ar).setVisible(false);
+		}
 		return true;
 	}
 
@@ -418,47 +456,52 @@ public class MainActivity extends FragmentActivity {
 					Toast.makeText(MainActivity.this,getResources().getString(R.string.network_error_contant),Toast.LENGTH_SHORT).show();
                 return true;
 			case R.id.logout:
-				go_logout();
+				go_logout(MainActivity.this);
 				return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-	public void go_logout()
-	{
-		//free data
-		DatabaseExecutor.getInstance().dropAllData();
-		//logout
-		LoginSharedPreferences temp =new LoginSharedPreferences(MainActivity.this);
-		temp.removeLogin(MainActivity.this);
-		logout_Manger logout_manger = new logout_Manger(MainActivity.this);
-		logout_manger.logout();
-		go();
-	}
-
-	private void go() {
-
-		Intent newActivity = new Intent(MainActivity.this,
-				LoginActivity.class);
-		startActivity(newActivity);
-		MainActivity.this.finish();
-	}
 	/**
 	 * Set language
 	 * @param localeString
 	 */
-	private void setLanguage(String localeString) {
+	public void setLanguage(String localeString) {
+
 		Locale locale = new Locale(localeString);
 		Locale.setDefault(locale);
+
 		Configuration config = new Configuration();
 		config.locale = locale;
+
 		LanguageController.getInstance().setLanguage(localeString);
 		getBaseContext().getResources().updateConfiguration(config,
 				getBaseContext().getResources().getDisplayMetrics());
 		Intent intent = getIntent();
 		finish();
 		startActivity(intent);
+
+
+	}
+
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+	private void forceRTLIfSupported() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+		}
+	}
+
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+	private void forceLTRIfSupported() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+		}
+	}
+
+	public boolean isRTL(Context ctx) {
+		Configuration config = ctx.getResources().getConfiguration();
+		return config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
 	}
 
 }

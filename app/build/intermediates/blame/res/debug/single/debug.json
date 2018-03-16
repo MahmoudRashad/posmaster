@@ -188,6 +188,10 @@
         "source": "C:\\Users\\mahmoudrashad\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.2.aar\\a7e117be5a1b8956c6d5b31d1142397c\\res\\drawable-xxxhdpi-v4\\abc_ic_menu_cut_mtrl_alpha.png"
     },
     {
+        "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_logo.png.flat",
+        "source": "F:\\projects\\posmaster\\app\\src\\main\\res\\drawable-xhdpi\\logo.png"
+    },
+    {
         "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_cab_background_top_mtrl_alpha.9.png.flat",
         "source": "C:\\Users\\mahmoudrashad\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.2.aar\\a7e117be5a1b8956c6d5b31d1142397c\\res\\drawable-mdpi-v4\\abc_cab_background_top_mtrl_alpha.9.png"
     },
@@ -764,6 +768,10 @@
         "source": "C:\\Users\\mahmoudrashad\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\ad7e6aa1e5f2fe6e8ee731508c2d7204\\res\\layout\\notification_action.xml"
     },
     {
+        "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_refresh_logo_low.png.flat",
+        "source": "F:\\projects\\posmaster\\app\\src\\main\\res\\drawable-hdpi\\refresh_logo_low.png"
+    },
+    {
         "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21_abc_edit_text_material.xml.flat",
         "source": "C:\\Users\\mahmoudrashad\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.2.aar\\a7e117be5a1b8956c6d5b31d1142397c\\res\\drawable-v21\\abc_edit_text_material.xml"
     },
@@ -790,6 +798,10 @@
     {
         "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_ic_menu_copy_mtrl_am_alpha.png.flat",
         "source": "C:\\Users\\mahmoudrashad\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.2.aar\\a7e117be5a1b8956c6d5b31d1142397c\\res\\drawable-xhdpi-v4\\abc_ic_menu_copy_mtrl_am_alpha.png"
+    },
+    {
+        "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_logo.png.flat",
+        "source": "F:\\projects\\posmaster\\app\\src\\main\\res\\drawable-xxhdpi\\logo.png"
     },
     {
         "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_text_select_handle_right_mtrl_dark.png.flat",
@@ -868,6 +880,10 @@
         "source": "C:\\Users\\mahmoudrashad\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.2.aar\\a7e117be5a1b8956c6d5b31d1142397c\\res\\color-v23\\abc_tint_switch_track.xml"
     },
     {
+        "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_launcher.png.flat",
+        "source": "F:\\projects\\posmaster\\app\\src\\main\\res\\drawable\\ic_launcher.png"
+    },
+    {
         "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_btn_switch_to_on_mtrl_00012.9.png.flat",
         "source": "C:\\Users\\mahmoudrashad\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.2.aar\\a7e117be5a1b8956c6d5b31d1142397c\\res\\drawable-xhdpi-v4\\abc_btn_switch_to_on_mtrl_00012.9.png"
     },
@@ -894,6 +910,10 @@
     {
         "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_textfield_search_activated_mtrl_alpha.9.png.flat",
         "source": "C:\\Users\\mahmoudrashad\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.2.aar\\a7e117be5a1b8956c6d5b31d1142397c\\res\\drawable-xhdpi-v4\\abc_textfield_search_activated_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_refresh_logo_low.png.flat",
+        "source": "F:\\projects\\posmaster\\app\\src\\main\\res\\drawable-xhdpi\\refresh_logo_low.png"
     },
     {
         "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\layout_zxing_capture.xml.flat",
@@ -1058,6 +1078,10 @@
     {
         "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\drawable_notification_bg_low.xml.flat",
         "source": "C:\\Users\\mahmoudrashad\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.0.2.aar\\ad7e6aa1e5f2fe6e8ee731508c2d7204\\res\\drawable\\notification_bg_low.xml"
+    },
+    {
+        "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_logo.png.flat",
+        "source": "F:\\projects\\posmaster\\app\\src\\main\\res\\drawable-mdpi\\logo.png"
     },
     {
         "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\layout_layout_productdetail_stock.xml.flat",
@@ -1264,6 +1288,10 @@
         "source": "C:\\Users\\mahmoudrashad\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.2.aar\\a7e117be5a1b8956c6d5b31d1142397c\\res\\drawable-xhdpi-v4\\abc_popup_background_mtrl_mult.9.png"
     },
     {
+        "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_logo.png.flat",
+        "source": "F:\\projects\\posmaster\\app\\src\\main\\res\\drawable-hdpi\\logo.png"
+    },
+    {
         "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\layout_layout_productdetail_detail.xml.flat",
         "source": "F:\\projects\\posmaster\\app\\src\\main\\res\\layout\\layout_productdetail_detail.xml"
     },
@@ -1394,6 +1422,10 @@
     {
         "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\drawable_abc_switch_thumb_material.xml.flat",
         "source": "C:\\Users\\mahmoudrashad\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.0.2.aar\\a7e117be5a1b8956c6d5b31d1142397c\\res\\drawable\\abc_switch_thumb_material.xml"
+    },
+    {
+        "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_refresh_logo_low.png.flat",
+        "source": "F:\\projects\\posmaster\\app\\src\\main\\res\\drawable-xxhdpi\\refresh_logo_low.png"
     },
     {
         "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_text_select_handle_middle_mtrl_light.png.flat",
@@ -1794,6 +1826,10 @@
     {
         "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\drawable_rounded_bg.xml.flat",
         "source": "F:\\projects\\posmaster\\app\\src\\main\\res\\drawable\\rounded_bg.xml"
+    },
+    {
+        "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_refresh_logo_low.png.flat",
+        "source": "F:\\projects\\posmaster\\app\\src\\main\\res\\drawable-mdpi\\refresh_logo_low.png"
     },
     {
         "merged": "F:\\projects\\posmaster\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_text_select_handle_middle_mtrl_dark.png.flat",

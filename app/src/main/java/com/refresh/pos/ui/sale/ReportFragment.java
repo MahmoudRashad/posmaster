@@ -25,6 +25,7 @@ import com.refresh.pos.domain.sale.Sale;
 import com.refresh.pos.domain.sale.SaleLedger;
 import com.refresh.pos.techicalservices.Globalclass;
 import com.refresh.pos.techicalservices.NoDaoSetException;
+import com.refresh.pos.ui.MainActivity;
 import com.refresh.pos.ui.component.UpdatableFragment;
 
 import java.util.ArrayList;
@@ -167,7 +168,9 @@ public class ReportFragment extends UpdatableFragment {
 		Calendar cTime = (Calendar) currentTime.clone();
 		Calendar eTime = (Calendar) currentTime.clone();
 		if (currentTime.get(Calendar.YEAR) != Globalclass.curr_year) {
-			//TODo reload other year
+			//  reload other year
+			Globalclass.curr_year = currentTime.get(Calendar.YEAR);
+			MainActivity.getreports(getActivity());
 		}
 		
 		if(period == DAILY){

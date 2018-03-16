@@ -4,10 +4,16 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.refresh.pos.R;
+import com.refresh.pos.domain.LanguageController;
 import com.refresh.pos.domain.inventory.LineItem;
 import com.refresh.pos.domain.sale.Register;
 import com.refresh.pos.techicalservices.NoDaoSetException;
@@ -28,6 +35,7 @@ import com.refresh.pos.ui.component.UpdatableFragment;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -51,9 +59,16 @@ public class SaleFragment extends UpdatableFragment {
 	 * Construct a new SaleFragment.
 	 * @param
 	 */
+
 	public SaleFragment(UpdatableFragment reportFragment) {
 		super();
 		this.reportFragment = reportFragment;
+	}
+
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
 	}
 
 	@Override
@@ -236,4 +251,53 @@ public class SaleFragment extends UpdatableFragment {
 		dialog.show();
 	}
 
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		menu.findItem(R.id.refresh).setVisible(false);
+		String lang = LanguageController.getInstance().getLanguage();
+		if (lang.equals("en"))
+			menu.findItem(R.id.lang_en).setVisible(false);
+		if (lang.equals("ar"))
+			menu.findItem(R.id.lang_ar).setVisible(false);
+		// Do something that differs the Activity's menu here
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.lang_en:
+				setLanguage("en");
+				return true;
+			case R.id.lang_th:
+				setLanguage("th");
+				return true;
+			case R.id.lang_jp:
+				setLanguage("jp");
+				return true;
+			case R.id.lang_ar:
+				setLanguage("ar");
+				return true;
+
+			case R.id.logout:
+				MainActivity.go_logout(getActivity());
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+
+	public void setLanguage(String localeString) {
+		Locale locale = new Locale(localeString);
+		Locale.setDefault(locale);
+		Configuration config = new Configuration();
+		config.locale = locale;
+		LanguageController.getInstance().setLanguage(localeString);
+		getActivity().getResources().updateConfiguration(config,
+				getActivity().getResources().getDisplayMetrics());
+		Intent intent = getActivity().getIntent();
+		getActivity().finish();
+		startActivity(intent);
+	}
 }

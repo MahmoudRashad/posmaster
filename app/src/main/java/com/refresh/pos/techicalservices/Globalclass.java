@@ -33,6 +33,7 @@ public class Globalclass {
     public static boolean sync=false;
     public static boolean fristlogin=false;
     public static int curr_year = 2018;
+    public static String languge = "en";
     static SaleLedger saleLedger = null;
     static String formattedDate;
     private static String startdate="2018-02-01 00:00:00";
