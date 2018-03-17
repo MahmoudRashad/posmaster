@@ -1,13 +1,11 @@
 package com.refresh.pos.ui;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -267,17 +265,19 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
-		String lang = LanguageController.getInstance().getLanguage();
-		if (lang.equals("ar"))
-			forceRTLIfSupported();
-		else
-			forceLTRIfSupported();
+
 
 		res = getResources();
 
 		setContentView(R.layout.layout_main);
 		Globalclass.activity=MainActivity.this;
 		viewPager = findViewById(R.id.pager);
+		String lang = LanguageController.getInstance().getLanguage();
+		if (lang.equals("ar"))
+			viewPager.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+		else
+			viewPager.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+
 		super.onCreate(savedInstanceState);
 		SDK_SUPPORTED = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 		initiateActionBar();
@@ -485,24 +485,6 @@ public class MainActivity extends FragmentActivity {
 
 	}
 
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-	private void forceRTLIfSupported() {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-			getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-		}
-	}
-
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-	private void forceLTRIfSupported() {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-			getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-		}
-	}
-
-	public boolean isRTL(Context ctx) {
-		Configuration config = ctx.getResources().getConfiguration();
-		return config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
-	}
 
 }
 

@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -40,11 +42,25 @@ public class LoginActivity extends Activity {
     private Button loginbtn;
     private String officeid="1";
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        try {
+            String lang = LanguageController.getInstance().getLanguage();
+            if (lang.equals("ar")) {
+                findViewById(R.id.login_lout).setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+                ((TextView) findViewById(R.id.lang_TV)).setText(getResources().getString(R.string.lang_en));
+            } else {
+                findViewById(R.id.login_lout).setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+                ((TextView) findViewById(R.id.lang_TV)).setText(getResources().getString(R.string.lang_ar));
 
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         setdata();
         initializationUI();
@@ -135,13 +151,18 @@ public class LoginActivity extends Activity {
                                 branches_list);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 mySpinner.setAdapter(adapter);
+                loginbtn.setEnabled(true);
                 pDialog.dismiss();
 
             }
 
             @Override
             public void onFailed(String title) {
-                pDialog.dismiss();
+                pDialog.setTitleText(getResources().getString(R.string.network_error_title))
+                        .setContentText(getResources().getString(R.string.network_error_contant))
+                        .setConfirmText(getResources().getString(R.string.confirm))
+                        .setConfirmClickListener(null)
+                        .changeAlertType(SweetAlertDialog.ERROR_TYPE);
                 Log.e("onFailed:getbranches ",title );
 
             }
@@ -167,6 +188,18 @@ public class LoginActivity extends Activity {
         });
 
 
+        findViewById(R.id.lang_TV).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (((TextView) findViewById(R.id.lang_TV)).getText().toString() == getString(R.string.lang_ar)) {
+                    setLanguage("ar");
+                } else {
+                    setLanguage("en");
+                }
+            }
+        });
+
+
         mySpinner = findViewById(R.id.Branches_sp);
         mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -180,7 +213,7 @@ public class LoginActivity extends Activity {
 
             }
         });
-
+        loginbtn.setEnabled(false);
 
 
 

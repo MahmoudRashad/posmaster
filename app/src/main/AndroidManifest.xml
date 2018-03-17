@@ -69,7 +69,9 @@
         <activity
             android:name=".ui.sale.SaleDetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.LoginActivity"></activity>
+        <activity
+            android:name=".ui.LoginActivity"
+            android:theme="@style/Fullscreen"></activity>
     </application>
 
 </manifest>
