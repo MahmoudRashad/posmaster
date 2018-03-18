@@ -10,18 +10,14 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.refresh.pos.R;
 import com.refresh.pos.domain.inventory.Inventory;
 import com.refresh.pos.domain.inventory.LineItem;
 import com.refresh.pos.domain.inventory.Stock;
 import com.refresh.pos.domain.sale.Register;
-import com.refresh.pos.techicalservices.Globalclass;
 import com.refresh.pos.techicalservices.NoDaoSetException;
 import com.refresh.pos.ui.component.UpdatableFragment;
-
-import static com.refresh.pos.techicalservices.Globalclass.sync;
 
 /**
  * A dialog for edit a LineItem of sale,
@@ -31,7 +27,8 @@ import static com.refresh.pos.techicalservices.Globalclass.sync;
  */
 @SuppressLint("ValidFragment")
 public class EditFragmentDialog extends DialogFragment {
-	private Register register;
+    Stock stock;
+    private Register register;
 	private UpdatableFragment saleFragment;
 	private UpdatableFragment reportFragment;
 	private EditText quantityBox;
@@ -41,8 +38,6 @@ public class EditFragmentDialog extends DialogFragment {
 	private String position;
 	private LineItem lineItem;
 	private Button removeButton;
-
-	Stock stock;
 	private int product_id;
 
 	/**
@@ -65,13 +60,13 @@ public class EditFragmentDialog extends DialogFragment {
 		} catch (NoDaoSetException e) {
 			e.printStackTrace();
 		}
-		
-		quantityBox = (EditText) v.findViewById(R.id.quantityBox);
-		priceBox = (EditText) v.findViewById(R.id.priceBox);
-		comfirmButton = (Button) v.findViewById(R.id.confirmButton);
-		removeButton = (Button) v.findViewById(R.id.removeButton);
-		
-		saleId = getArguments().getString("sale_id");
+
+        quantityBox = v.findViewById(R.id.quantityBox);
+        priceBox = v.findViewById(R.id.priceBox);
+        comfirmButton = v.findViewById(R.id.confirmButton);
+        removeButton = v.findViewById(R.id.removeButton);
+
+        saleId = getArguments().getString("sale_id");
 		position = getArguments().getString("position");
 		product_id =Integer.parseInt(getArguments().getString("product_id"));
 
@@ -91,26 +86,14 @@ public class EditFragmentDialog extends DialogFragment {
 			@Override
 			public void onClick(View view) {
 
-//				if(Globalclass.isNetworkAvailable(getActivity()))
-//				{
-//					if (sync==false)
-//					Globalclass.sync_last_orders(getActivity());
-//
-//					Toast.makeText(getActivity(),getResources().getString(R.string.Loading),Toast.LENGTH_LONG).show();
-//				}
-//
-//				if(stock.getStockSumById(product_id) > Integer.parseInt(quantityBox.getText().toString()) )
-//				{
-					register.updateItem(
+
+                register.updateItem(
 							Integer.parseInt(saleId),
 							lineItem,
 							Integer.parseInt(quantityBox.getText().toString()),
 							Double.parseDouble(priceBox.getText().toString())
 					);
 					end();
-//				}else {
-//					Toast.makeText(getActivity(),getResources().getString(R.string.quantityerror),Toast.LENGTH_LONG).show();
-//				}
 
 				
 

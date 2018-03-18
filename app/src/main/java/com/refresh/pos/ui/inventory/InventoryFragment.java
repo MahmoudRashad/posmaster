@@ -16,7 +16,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -37,6 +36,8 @@ import com.refresh.pos.ui.component.UpdatableFragment;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 //import com.google.zxing.integration.android.IntentIntegratorSupportV4;
 
@@ -134,19 +135,10 @@ public class InventoryFragment extends UpdatableFragment {
 			public void onItemClick(AdapterView<?> myAdapter, View myView, int position, long mylng) {
 				int id = Integer.parseInt(inventoryList.get(position).get("id").toString());
 
-//				if(Globalclass.isNetworkAvailable(getActivity())&&sync==false){
-//					Globalclass.sync_last_orders(getActivity());
-//
-//				}
-//					if(stock.getStockSumById(id) >0)
-//					{
 						register.addItem(productCatalog.getProductById(id), 1);
 						saleFragment.update();
 						viewPager.setCurrentItem(1);
-//					}
-//					else {
-//						Toast.makeText(getActivity(),getResources().getString(R.string.quantityerror),Toast.LENGTH_LONG).show();
-//					}
+
 
 
 
@@ -156,12 +148,8 @@ public class InventoryFragment extends UpdatableFragment {
 		scanButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				IntentIntegratorSupportV4 scanIntegrator = new IntentIntegratorSupportV4(InventoryFragment.this);
-//				scanIntegrator.initiateScan();
 
-//				new IntentIntegrator(getActivity()).initiateScan();
 				IntentIntegrator.forSupportFragment(InventoryFragment.this).initiateScan();
-//				IntentIntegrator.forFragment(InventoryFragment.this).initiateScan();
 
 
 			}
@@ -224,8 +212,10 @@ public class InventoryFragment extends UpdatableFragment {
 			String scanContent = scanningResult.getContents();
 			searchBox.setText(scanContent);
 		} else {
-			Toast.makeText(getActivity().getBaseContext(), res.getString(R.string.fail),
-					Toast.LENGTH_SHORT).show();
+			SweetAlertDialog pDialog = new SweetAlertDialog(getActivity().getBaseContext());
+			pDialog.setConfirmText(res.getString(R.string.fail))
+					.setConfirmClickListener(null)
+					.changeAlertType(SweetAlertDialog.WARNING_TYPE);
 		}
 	}
 
@@ -234,8 +224,11 @@ public class InventoryFragment extends UpdatableFragment {
 	 */
 	protected void testAddProduct() {
 		Demo.testProduct(getActivity());
-		Toast.makeText(getActivity().getBaseContext(), res.getString(R.string.success),
-				Toast.LENGTH_SHORT).show();
+
+
+		SweetAlertDialog pDialog = new SweetAlertDialog(getActivity().getBaseContext());
+		pDialog.setConfirmClickListener(null)
+				.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
 	}
 
 	/**

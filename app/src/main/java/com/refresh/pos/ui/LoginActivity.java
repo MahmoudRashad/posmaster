@@ -51,10 +51,10 @@ public class LoginActivity extends Activity {
             String lang = LanguageController.getInstance().getLanguage();
             if (lang.equals("ar")) {
                 findViewById(R.id.login_lout).setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-                ((TextView) findViewById(R.id.lang_TV)).setText(getResources().getString(R.string.lang_en));
+                ((TextView) findViewById(R.id.lang_TV)).setText(getResources().getString(R.string.login_lang_en));
             } else {
                 findViewById(R.id.login_lout).setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-                ((TextView) findViewById(R.id.lang_TV)).setText(getResources().getString(R.string.lang_ar));
+                ((TextView) findViewById(R.id.lang_TV)).setText(getResources().getString(R.string.login_lang_ar));
 
             }
 
@@ -191,7 +191,7 @@ public class LoginActivity extends Activity {
         findViewById(R.id.lang_TV).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (((TextView) findViewById(R.id.lang_TV)).getText().toString() == getString(R.string.lang_ar)) {
+                if (((TextView) findViewById(R.id.lang_TV)).getText().toString() == getString(R.string.login_lang_ar)) {
                     setLanguage("ar");
                 } else {
                     setLanguage("en");
@@ -266,18 +266,6 @@ public class LoginActivity extends Activity {
                                 .setConfirmClickListener(null)
                                 .changeAlertType(SweetAlertDialog.ERROR_TYPE);
 
-//                        new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.WARNING_TYPE)
-//                                .setTitleText(title)
-//                                .setContentText(message)
-//                                .setConfirmText(getResources().getString(R.string.dialog_ok))
-//                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-//                                    @Override
-//                                    public void onClick(SweetAlertDialog sDialog) {
-//                                        sDialog.dismissWithAnimation();
-//                                    }
-//                                })
-//                                .show();
-//                        Toast.makeText(LoginActivity.this,message,Toast.LENGTH_LONG).show();
 
 
                     } catch (Exception e) {

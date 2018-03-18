@@ -1,13 +1,8 @@
 package com.refresh.pos.ui;
 
-import java.util.Locale;
-
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -15,7 +10,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.refresh.pos.R;
 import com.refresh.pos.domain.DateTimeStrategy;
@@ -32,6 +26,10 @@ import com.refresh.pos.techicalservices.inventory.InventoryDaoAndroid;
 import com.refresh.pos.techicalservices.sale.SaleDao;
 import com.refresh.pos.techicalservices.sale.SaleDaoAndroid;
 import com.refresh.pos.techicalservices.utils.LoginSharedPreferences;
+
+import java.util.Locale;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * This is the first activity page, core-app and database created here.
@@ -105,9 +103,12 @@ public class SplashScreenActivity extends Activity {
 				SplashScreenActivity.this.finish();
 			}
 			else {
-
-				Toast.makeText(SplashScreenActivity.this,getResources().getString(R.string.network_error_contant),Toast.LENGTH_LONG).show();
-			}
+                SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
+                pDialog.setTitleText(getResources().getString(R.string.network_error_contant));
+                pDialog.setCancelable(true);
+                pDialog.setConfirmClickListener(null);
+                pDialog.show();
+            }
 
 
 //		}
@@ -126,8 +127,8 @@ public class SplashScreenActivity extends Activity {
 	private void initiateUI(Bundle savedInstanceState) {
 
 		setContentView(R.layout.layout_splashscreen);
-		goButton = (Button) findViewById(R.id.goButton);
-		goButton.setOnClickListener(new View.OnClickListener() {
+        goButton = findViewById(R.id.goButton);
+        goButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
 				go();

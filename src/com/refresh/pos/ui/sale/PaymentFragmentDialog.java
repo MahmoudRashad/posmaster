@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 /**
  * A dialog for input a money for sale.
@@ -66,13 +66,21 @@ public class PaymentFragmentDialog extends DialogFragment {
 				String inputString = input.getText().toString();
 				
 				if (inputString.equals("")) {
-					Toast.makeText(getActivity().getBaseContext(), getResources().getString(R.string.please_input_all), Toast.LENGTH_SHORT).show();
+					SweetAlertDialog pDialog = new SweetAlertDialog(getActivity().getBaseContext());
+					pDialog.setConfirmText( getResources().getString(R.string.please_input_all)))
+							.setConfirmClickListener(null)
+							.changeAlertType(SweetAlertDialog.WARNING_TYPE);
 					return;
 				}
 				double a = Double.parseDouble(strtext);
 				double b = Double.parseDouble(inputString);
 				if (b < a) {
-					Toast.makeText(getActivity().getBaseContext(), getResources().getString(R.string.need_money) + " " + (b - a), Toast.LENGTH_SHORT).show();
+
+                    SweetAlertDialog pDialog = new SweetAlertDialog(getActivity().getBaseContext(), SweetAlertDialog.WARNING_TYPE);
+                    pDialog.setTitleText(getResources().getString(R.string.need_money) + " " + (b - a));
+                    pDialog.setConfirmClickListener(null);
+                    pDialog.show();
+
 				} else {
 					Bundle bundle = new Bundle();
 					bundle.putString("edttext", b - a + "");

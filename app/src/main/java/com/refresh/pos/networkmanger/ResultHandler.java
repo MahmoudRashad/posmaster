@@ -2,10 +2,11 @@ package com.refresh.pos.networkmanger;
 
 import android.app.Activity;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by mahmoudrashad on 2/11/2018.
@@ -29,10 +30,15 @@ class ResultHandler {
         if (x == 1) {
             try {
                 int trancatoin_id = Integer.parseInt(response);
-                Toast.makeText(context, response, Toast.LENGTH_LONG).show();
+
+                SweetAlertDialog pDialog = new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE);
+                pDialog.setTitleText(response);
+                pDialog.setCancelable(true);
+                pDialog.setConfirmClickListener(null);
+                pDialog.show();
                 return true;
             } catch (Exception e) {
-//                Toast.makeText(context, response, Toast.LENGTH_LONG).show();
+
                 Log.d("validateHandlerResult: ", e.getMessage());
                 return false;
             }

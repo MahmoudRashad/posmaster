@@ -17,7 +17,7 @@ public class Product {
 	/**
 	 * Static value for UNDEFINED ID.
 	 */
-	public static final int UNDEFINED_ID = -1;
+	public static int UNDEFINED_ID = -1;
 	private int id;
 	private int quantity;
 	private String name;
@@ -42,7 +42,13 @@ public class Product {
 	 * @param opj opj JSONObject for product data
 	 */
 	public Product(JSONObject opj) {
-		try {this.id = opj.getInt("ItemId");} catch (JSONException e) {e.printStackTrace();id=UNDEFINED_ID;}
+		try {
+			this.id = opj.getInt("ItemId");
+		} catch (JSONException e) {
+			e.printStackTrace();
+			id = UNDEFINED_ID;
+			UNDEFINED_ID++;
+		}
 		try {this.name = opj.getString("ItemName");} catch (JSONException e) {e.printStackTrace();name="";}
         try {
             this.barcode = opj.getString("ItemCode");
@@ -61,6 +67,7 @@ public class Product {
         else
 			try {
 				this.unitPrice = opj.getDouble("Price");
+
 			} catch (JSONException e) {
 				e.printStackTrace();
 				unitPrice = 0.0;

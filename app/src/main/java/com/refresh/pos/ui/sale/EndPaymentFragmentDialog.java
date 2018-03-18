@@ -76,65 +76,7 @@ public class EndPaymentFragmentDialog extends DialogFragment  {
 	 */
 	private void end(){
 
-//		if(Globalclass.isNetworkAvailable(getActivity())){
-//			//get time
-//			Date c = Calendar.getInstance().getTime();
-//
-//
-//			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-//			String formattedDate = df.format(c);
-//
-//
-//
-//			Submit_order_Manger submit_order_manger = new Submit_order_Manger(getActivity());
-//			submit_order_manger.setListener(new Submit_order_Manger.mycustomer_click_lisner() {
-//				@Override
-//				public void onObjectReady(String response) {
-//					if (response!=""){
-//						regis.endSale(DateTimeStrategy.getCurrentTime(),Globalclass.ENDED);
-//						saleFragment.update();
-//						reportFragment.update();
-////					Toast.makeText(getActivity(),getResources().getString(R.string.orderSubmited),Toast.LENGTH_LONG).show();
-//						if (sync==false)
-//						MainActivity.refresh(getActivity());
-//					dismiss();
-//					}
-//
-//
-//				}
-//
-//
-//				@Override
-//				public void onFailed(String s) {
-//					Log.e("onFailed:  ", s);
-//					Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
-//
-//					Bundle bundle = new Bundle();
-//					bundle.putString("massaget", s);
-//					bundle.putString("totalprice", totalprice);
-//					SubmitOrderErrorDialog newFragment = new SubmitOrderErrorDialog(
-//							saleFragment, reportFragment);
-//					newFragment.setArguments(bundle);
-//					newFragment.show(getFragmentManager(), "");
-//
-//
-//					dismiss();
-//
-//				}
-//			});
-//			double Tender = regis.getTotal() + Double.parseDouble (chg.getText().toString());
-//			submit_order_manger.Submit_order(regis.getCurrentSale(),chg.getText().toString(),Globalclass.counterid,
-//					"DEFAULT", "" + Tender, formattedDate);
-//
-//		}else{
-//
-//            Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.network_error_contant), Toast.LENGTH_LONG).show();
-////			regis.endSale(DateTimeStrategy.getCurrentTime(),Globalclass.wiat_syncserver);
-////			saleFragment.update();
-////			reportFragment.update();
-////			this.dismiss();
-//
-//		}
+
 		this.dismiss();
 
 

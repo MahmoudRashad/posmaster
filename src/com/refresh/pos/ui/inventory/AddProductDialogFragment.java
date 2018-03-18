@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentIntegratorSupportV4;
@@ -94,9 +94,12 @@ public class AddProductDialogFragment extends DialogFragment {
 					|| barcodeBox.getText().toString().equals("")
 					|| priceBox.getText().toString().equals("")) {
 					
-					Toast.makeText(getActivity().getBaseContext(),
-							res.getString(R.string.please_input_all), Toast.LENGTH_SHORT)
-							.show();
+
+
+					SweetAlertDialog pDialog = new SweetAlertDialog(getActivity().getBaseContext());
+					pDialog.setConfirmText(res.getString(R.string.please_input_all))
+							.setConfirmClickListener(null)
+							.changeAlertType(SweetAlertDialog.WARNING_TYPE);
 					
 				} else {
 					boolean success = productCatalog.addProduct(nameBox
@@ -105,19 +108,24 @@ public class AddProductDialogFragment extends DialogFragment {
 							.toString()));
 
 					if (success) {
-						Toast.makeText(getActivity().getBaseContext(),
-								res.getString(R.string.success) + ", "
-										+ nameBox.getText().toString(), 
-								Toast.LENGTH_SHORT).show();
-						
+
+
+						SweetAlertDialog pDialog = new SweetAlertDialog(getActivity().getBaseContext(), SweetAlertDialog.WARNING_TYPE);
+						pDialog.setTitleText(res.getString(R.string.success) + ", "	+ nameBox.getText().toString());
+						pDialog.setConfirmClickListener(null);
+						pDialog.show();
+
 						fragment.update();
 						clearAllBox();
 						AddProductDialogFragment.this.dismiss();
 						
 					} else {
-						Toast.makeText(getActivity().getBaseContext(),
-								res.getString(R.string.fail),
-								Toast.LENGTH_SHORT).show();
+
+
+						SweetAlertDialog pDialog = new SweetAlertDialog(getActivity().getBaseContext(), SweetAlertDialog.WARNING_TYPE);
+						pDialog.setTitleText( res.getString(R.string.fail));
+						pDialog.setConfirmClickListener(null);
+						pDialog.show();
 					}
 				}
 			}
@@ -153,9 +161,11 @@ public class AddProductDialogFragment extends DialogFragment {
 			String scanContent = scanningResult.getContents();
 			barcodeBox.setText(scanContent);
 		} else {
-			Toast.makeText(getActivity().getBaseContext(),
-					res.getString(R.string.fail),
-					Toast.LENGTH_SHORT).show();
+
+			SweetAlertDialog pDialog = new SweetAlertDialog(getActivity().getBaseContext(), SweetAlertDialog.WARNING_TYPE);
+			pDialog.setTitleText( res.getString(R.string.fail));
+			pDialog.setConfirmClickListener(null);
+			pDialog.show();
 		}
 	}
 }

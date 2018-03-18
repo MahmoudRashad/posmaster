@@ -45,7 +45,6 @@
     <string name="need_money">Need</string>
 
 
-    <string name="lang_en">English</string>
     <string name="lang_th">ภาษาไทย (th)</string>
     <string name="lang_jp">日本語 (jp)</string>
     <string name="hint_lang">Please restart the application to apply this language settings.</string>
@@ -60,7 +59,7 @@
     <string name="logout">Logout</string>
     <string name="orderSubmited">The oder submited successfully</string>
     <string name="refresh">Refresh</string>
-    <string name="lang_ar">Arabic</string>
+    <string name="lang_ar">عربي</string>
     <string name="quantityerror">The required quantity does not exist</string>
     <string name="ReorderQuantity">Reorder Quantity</string>
     <string name="price_type">Price Type</string>
@@ -71,6 +70,8 @@
     <string name="removesale">Remove Sale</string>
     <string name="invalidlogin">Invalid UserName or Password</string>
     <string name="selectoffice">Select Office</string>
+    <string name="login_lang_ar">عربي</string>
+    <string name="login_lang_en">English</string>
 
 
     <string-array name="period">
@@ -100,5 +101,7 @@
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">2</item>
     </style>
+
+    <string name="lang_en">انجليزي</string>
 
 </resources>

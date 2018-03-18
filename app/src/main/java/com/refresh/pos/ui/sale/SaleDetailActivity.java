@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.refresh.pos.R;
 import com.refresh.pos.domain.inventory.LineItem;
@@ -26,9 +25,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * UI for showing the detail of Sale in the record.
@@ -57,8 +60,14 @@ public class SaleDetailActivity extends Activity{
 		saleId = Integer.parseInt(getIntent().getStringExtra("id"));
 		if (Globalclass.isNetworkAvailable(SaleDetailActivity.this))
 			sale = get_sale(saleId);
-		else
-			Toast.makeText(SaleDetailActivity.this, getResources().getString(R.string.network_error_contant), Toast.LENGTH_SHORT).show();
+		else {
+			SweetAlertDialog pDialog = new SweetAlertDialog(SaleDetailActivity.this, SweetAlertDialog.WARNING_TYPE);
+			pDialog.setTitleText(getResources().getString(R.string.network_error_contant));
+			pDialog.setCancelable(true);
+			pDialog.setConfirmClickListener(null);
+			pDialog.show();
+		}
+
 
 		initUI(savedInstanceState);
 	}
@@ -85,7 +94,12 @@ public class SaleDetailActivity extends Activity{
 
 			@Override
 			public void onFailed(String s) {
-				Toast.makeText(SaleDetailActivity.this, s, Toast.LENGTH_SHORT).show();
+
+				SweetAlertDialog pDialog = new SweetAlertDialog(SaleDetailActivity.this, SweetAlertDialog.ERROR_TYPE);
+				pDialog.setTitleText(s);
+				pDialog.setCancelable(true);
+				pDialog.setConfirmClickListener(null);
+				pDialog.show();
 
 			}
 		});
@@ -155,8 +169,13 @@ public class SaleDetailActivity extends Activity{
 	 * Update UI.
 	 */
 	public void update() {
-		totalBox.setText(sale.getTotal() + "");
-		dateBox.setText(sale.getEndTime() + "");
+		DecimalFormatSymbols simbolos = new DecimalFormatSymbols();
+		simbolos.setGroupingSeparator(',');
+		simbolos.setDecimalSeparator('.');
+
+
+		totalBox.setText(new DecimalFormat("###.##", simbolos).format(sale.getTotal()));
+		dateBox.setText(sale.getStartTime() + "");
 		showList(sale.getAllLineItem());
 	}
 	

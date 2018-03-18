@@ -22,10 +22,11 @@
         android:id="@+id/lang_TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="end"
         android:layout_margin="5dp"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="5dp"
-        android:text="@string/lang_ar" />
+        android:text="@string/login_lang_ar" />
 
     <ImageView
         android:layout_width="100dp"
@@ -44,6 +45,7 @@
         android:background="@drawable/btn_white"
         android:hint="@string/email"
         android:padding="10dp"
+        android:singleLine="true"
           />
 
     <EditText
@@ -56,6 +58,7 @@
         android:hint="@string/password"
         android:inputType="textPassword"
         android:padding="10dp"
+        android:singleLine="true"
       />
     <Spinner
         android:id="@+id/Branches_sp"

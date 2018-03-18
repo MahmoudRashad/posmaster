@@ -2,7 +2,6 @@ package com.refresh.pos.networkmanger;
 
 import android.app.Activity;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
@@ -15,6 +14,8 @@ import com.refresh.pos.techicalservices.utils.LoginSharedPreferences;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static com.refresh.pos.networkmanger.cookes.okHttpClient;
 
@@ -93,8 +94,10 @@ public class Submit_order_Manger {
                     @Override
                     public void onResponse(String response) {
                         if (listener != null){
-                            Toast.makeText(activity,response,Toast.LENGTH_SHORT).show();
-
+                            SweetAlertDialog pDialog = new SweetAlertDialog(activity);
+                            pDialog.setTitleText(response)
+                                    .setConfirmClickListener(null)
+                                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
                             if (new ResultHandler().validateHandlerResult(activity, response, 1)) {
                                 listener.onObjectReady(response );
                             }

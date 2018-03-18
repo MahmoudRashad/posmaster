@@ -27,7 +27,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.refresh.pos.R;
 import com.refresh.pos.domain.LanguageController;
@@ -114,7 +113,10 @@ public class MainActivity extends FragmentActivity {
 
 
 		} else {
-			Toast.makeText(cont, cont.getResources().getString(R.string.network_error_contant), Toast.LENGTH_SHORT).show();
+			SweetAlertDialog pDialog = new SweetAlertDialog(cont);
+			pDialog.setConfirmText(cont.getResources().getString(R.string.network_error_contant))
+					.setConfirmClickListener(null)
+					.changeAlertType(SweetAlertDialog.WARNING_TYPE);
 		}
 		Globalclass.fristlogin = false;
 	}
@@ -437,24 +439,30 @@ public class MainActivity extends FragmentActivity {
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.lang_en:
-            	setLanguage("en");
-                return true;
-            case R.id.lang_th:
-            	setLanguage("th");
-                return true;
-            case R.id.lang_jp:
-            	setLanguage("jp");
-                return true;
-            case R.id.lang_ar:
-            	setLanguage("ar");
-                return true;
-            case R.id.refresh:
-				if(Globalclass.isNetworkAvailable(MainActivity.this))
-            	refresh(MainActivity.this);
-				else
-					Toast.makeText(MainActivity.this,getResources().getString(R.string.network_error_contant),Toast.LENGTH_SHORT).show();
-                return true;
+			case R.id.lang_en:
+				setLanguage("en");
+				return true;
+			case R.id.lang_th:
+				setLanguage("th");
+				return true;
+			case R.id.lang_jp:
+				setLanguage("jp");
+				return true;
+			case R.id.lang_ar:
+				setLanguage("ar");
+				return true;
+			case R.id.refresh:
+				if (Globalclass.isNetworkAvailable(MainActivity.this))
+					refresh(MainActivity.this);
+				else {
+					SweetAlertDialog pDialog = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
+
+					pDialog.setTitleText(getResources().getString(R.string.network_error_contant));
+					pDialog.setConfirmClickListener(null);
+
+					pDialog.show();
+				}
+				return true;
 			case R.id.logout:
 				go_logout(MainActivity.this);
 				return true;

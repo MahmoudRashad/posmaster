@@ -25,7 +25,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.refresh.pos.R;
 import com.refresh.pos.domain.DateTimeStrategy;
@@ -287,9 +287,12 @@ public class ProductDetailActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				if (quantityBox.getText().toString().equals("") || costBox.getText().toString().equals("")) {
-					Toast.makeText(ProductDetailActivity.this,
-							res.getString(R.string.please_input_all), Toast.LENGTH_SHORT)
-							.show();
+
+					SweetAlertDialog pDialog = new SweetAlertDialog(ProductDetailActivity.this, SweetAlertDialog.WARNING_TYPE);
+					pDialog.setTitleText(res.getString(R.string.please_input_all));
+					pDialog.setConfirmClickListener(null);
+					pDialog.show();
+
 				} else {
 					boolean success = stock.addProductLot(
 							DateTimeStrategy.getCurrentTime(), 
@@ -298,7 +301,11 @@ public class ProductDetailActivity extends Activity {
 							Double.parseDouble(costBox.getText().toString()));
 
 					if (success) {
-						Toast.makeText(ProductDetailActivity.this, res.getString(R.string.success), Toast.LENGTH_SHORT).show();
+						SweetAlertDialog pDialog = new SweetAlertDialog(ProductDetailActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+
+						pDialog.setConfirmClickListener(null);
+						pDialog.show()
+
 						costBox.setText("");
 						quantityBox.setText("");
 						onResume();
@@ -306,7 +313,10 @@ public class ProductDetailActivity extends Activity {
 						
 						
 					} else {
-						Toast.makeText(ProductDetailActivity.this, res.getString(R.string.fail) ,Toast.LENGTH_SHORT).show();
+						SweetAlertDialog pDialog = new SweetAlertDialog(ProductDetailActivity.this, SweetAlertDialog.WARNING_TYPE);
+						pDialog.setTitleText(res.getString(R.string.fail));
+						pDialog.setConfirmClickListener(null);
+						pDialog.show();
 					}
 				}
 				

@@ -20,7 +20,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
+
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentIntegratorSupportV4;
@@ -187,8 +187,10 @@ public class InventoryFragment extends UpdatableFragment {
 			String scanContent = scanningResult.getContents();
 			searchBox.setText(scanContent);
 		} else {
-			Toast.makeText(getActivity().getBaseContext(), res.getString(R.string.fail),
-					Toast.LENGTH_SHORT).show();
+			SweetAlertDialog pDialog = new SweetAlertDialog(getActivity().getBaseContext(), SweetAlertDialog.WARNING_TYPE);
+			pDialog.setTitleText( res.getString(R.string.fail));
+			pDialog.setConfirmClickListener(null);
+			pDialog.show();
 		}
 	}
 
@@ -197,8 +199,13 @@ public class InventoryFragment extends UpdatableFragment {
 	 */
 	protected void testAddProduct() {
 		Demo.testProduct(getActivity());
-		Toast.makeText(getActivity().getBaseContext(), res.getString(R.string.success),
-				Toast.LENGTH_SHORT).show();
+
+
+		SweetAlertDialog pDialog = new SweetAlertDialog(getActivity().getBaseContext(), SweetAlertDialog.success);
+		pDialog.setTitleText( res.getString(R.string.success));
+		pDialog.setConfirmClickListener(null);
+		pDialog.show();
+
 	}
 
 	/**

@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+import com.refresh.pos.R;
 import com.refresh.pos.domain.sale.Sale;
 import com.refresh.pos.domain.sale.SaleLedger;
 import com.refresh.pos.networkmanger.Submit_order_Manger;
@@ -15,6 +16,8 @@ import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by mahmoudrashad on 2/11/2018.
@@ -79,7 +82,7 @@ public class Globalclass {
         transactoin_manger.get_Transactions(startdate,date);
     }
 
-    public  static void submit_order(final Sale sale, Activity activity){
+    public static void submit_order(final Sale sale, final Activity activity) {
         sync=true;
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
@@ -99,7 +102,12 @@ public class Globalclass {
                 if (response!=""){
                     saleLedger.updateSaleEnded(sale);
                     sync =false;
-//					Toast.makeText(getActivity(),getResources().getString(R.string.orderSubmited),Toast.LENGTH_LONG).show();
+
+                    SweetAlertDialog pDialog = new SweetAlertDialog(activity);
+                    pDialog.setConfirmText(activity.getResources().getString(R.string.orderSubmited))
+                            .setConfirmClickListener(null)
+                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+
                 }
 
 

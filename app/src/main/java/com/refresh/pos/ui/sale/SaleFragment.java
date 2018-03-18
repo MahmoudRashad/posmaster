@@ -22,7 +22,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.refresh.pos.R;
 import com.refresh.pos.domain.LanguageController;
@@ -37,6 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * UI for Sale operation.
@@ -125,7 +126,11 @@ public class SaleFragment extends UpdatableFragment {
 				if(register.hasSale()){
 					showPopup(v);
 				} else {
-					Toast.makeText(getActivity().getBaseContext() , res.getString(R.string.hint_empty_sale), Toast.LENGTH_SHORT).show();
+					SweetAlertDialog pDialog = new SweetAlertDialog(getActivity().getBaseContext(), SweetAlertDialog.WARNING_TYPE);
+					pDialog.setTitleText(res.getString(R.string.hint_empty_sale));
+					pDialog.setCancelable(true);
+					pDialog.setConfirmClickListener(null);
+					pDialog.show();
 				}
 			}
 		});
@@ -134,7 +139,12 @@ public class SaleFragment extends UpdatableFragment {
 			@Override
 			public void onClick(View v) {
 				if (!register.hasSale() || register.getCurrentSale().getAllLineItem().isEmpty()) {
-					Toast.makeText(getActivity().getBaseContext() , res.getString(R.string.hint_empty_sale), Toast.LENGTH_SHORT).show();
+					SweetAlertDialog pDialog = new SweetAlertDialog(getActivity().getBaseContext(), SweetAlertDialog.WARNING_TYPE);
+					pDialog.setTitleText(res.getString(R.string.hint_empty_sale));
+					pDialog.setCancelable(true);
+					pDialog.setConfirmClickListener(null);
+					pDialog.show();
+
 				} else {
 					showConfirmClearDialog();
 				}
@@ -254,7 +264,7 @@ public class SaleFragment extends UpdatableFragment {
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		menu.findItem(R.id.refresh).setVisible(false);
+//		menu.findItem(R.id.refresh).setVisible(false);
 		String lang = LanguageController.getInstance().getLanguage();
 		if (lang.equals("en"))
 			menu.findItem(R.id.lang_en).setVisible(false);

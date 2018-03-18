@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.refresh.pos.R;
 import com.refresh.pos.domain.DateTimeStrategy;
@@ -113,13 +112,21 @@ public class PaymentFragmentDialog extends DialogFragment {
 				String inputString = input.getText().toString();
 				
 				if (inputString.equals("")) {
-					Toast.makeText(getActivity().getBaseContext(), getResources().getString(R.string.please_input_all), Toast.LENGTH_SHORT).show();
+					SweetAlertDialog pDialog = new SweetAlertDialog(getActivity().getBaseContext(), SweetAlertDialog.WARNING_TYPE);
+					pDialog.setTitleText(getResources().getString(R.string.please_input_all));
+					pDialog.setCancelable(true);
+					pDialog.setConfirmClickListener(null);
+					pDialog.show();
 					return;
 				}
 				final double a = Double.parseDouble(strtext);
 				final double b = Double.parseDouble(inputString);
 				if (b < a) {
-					Toast.makeText(getActivity().getBaseContext(), getResources().getString(R.string.need_money) + " " + (b - a), Toast.LENGTH_SHORT).show();
+					SweetAlertDialog pDialog = new SweetAlertDialog(getActivity().getBaseContext(), SweetAlertDialog.WARNING_TYPE);
+					pDialog.setTitleText(getResources().getString(R.string.need_money) + " " + (b - a));
+					pDialog.setCancelable(true);
+					pDialog.setConfirmClickListener(null);
+					pDialog.show();
 				} else {
 
 
@@ -156,17 +163,8 @@ public class PaymentFragmentDialog extends DialogFragment {
 									regis.endSale(DateTimeStrategy.getCurrentTime(), Globalclass.ENDED);
 									saleFragment.update();
 									reportFragment.update();
-//					Toast.makeText(getActivity(),getResources().getString(R.string.orderSubmited),Toast.LENGTH_LONG).show();
 									if (sync == false)
 										MainActivity.refresh(getActivity());
-////									dismiss();
-//									Bundle bundle = new Bundle();
-//									bundle.putString("edttext", b - a + "");
-//									bundle.putString("totalprice", strtext);
-//									EndPaymentFragmentDialog newFragment = new EndPaymentFragmentDialog(
-//											saleFragment, reportFragment);
-//									newFragment.setArguments(bundle);
-//									newFragment.show(getFragmentManager(), "");
 									end();
 								}
 
@@ -185,16 +183,6 @@ public class PaymentFragmentDialog extends DialogFragment {
 								Log.e("onFailed:  ", s);
 
 
-//
-//								Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
-//
-//								Bundle bundle = new Bundle();
-//								bundle.putString("massaget", s);
-//								bundle.putString("totalprice", "");
-//								SubmitOrderErrorDialog newFragment = new SubmitOrderErrorDialog(
-//										saleFragment, reportFragment);
-//								newFragment.setArguments(bundle);
-//								newFragment.show(getFragmentManager(), "");
 
 
 							}
@@ -205,24 +193,17 @@ public class PaymentFragmentDialog extends DialogFragment {
 
 					} else {
 
-						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.network_error_contant), Toast.LENGTH_LONG).show();
-//			regis.endSale(DateTimeStrategy.getCurrentTime(),Globalclass.wiat_syncserver);
-//			saleFragment.update();
-//			reportFragment.update();
-//			this.dismiss();
+						SweetAlertDialog pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE);
+						pDialog.setTitleText(getActivity().getResources().getString(R.string.network_error_contant));
+						pDialog.setConfirmClickListener(null);
+						pDialog.show();
+
+
+
 
 					}
 
-					//////////////////////////
 
-//					Bundle bundle = new Bundle();
-//					bundle.putString("edttext", b - a + "");
-//					bundle.putString("totalprice", strtext);
-//					EndPaymentFragmentDialog newFragment = new EndPaymentFragmentDialog(
-//							saleFragment, reportFragment);
-//					newFragment.setArguments(bundle);
-//					newFragment.show(getFragmentManager(), "");
-//					end();
 				}
 
 			}
@@ -264,7 +245,13 @@ public class PaymentFragmentDialog extends DialogFragment {
 							android.R.layout.simple_spinner_item, new String[]{"No data"});
 					dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 					spinner3.setAdapter(dataAdapter);
-					Toast.makeText(getActivity(), title, Toast.LENGTH_SHORT).show();
+
+					SweetAlertDialog pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE);
+					pDialog.setTitleText(title);
+					pDialog.setConfirmClickListener(null);
+					pDialog.show();
+
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -297,7 +284,12 @@ public class PaymentFragmentDialog extends DialogFragment {
 					dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 					spinner1.setAdapter(dataAdapter);
 
-					Toast.makeText(getActivity(), title, Toast.LENGTH_SHORT).show();
+					SweetAlertDialog pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE);
+					pDialog.setTitleText(title);
+					pDialog.setConfirmClickListener(null);
+					pDialog.show();
+
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -329,7 +321,14 @@ public class PaymentFragmentDialog extends DialogFragment {
 							android.R.layout.simple_spinner_item, new String[]{"No data"});
 					dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 					spinner2.setAdapter(dataAdapter);
-					Toast.makeText(getActivity(), title, Toast.LENGTH_SHORT).show();
+
+					SweetAlertDialog pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE);
+					pDialog.setTitleText(title);
+					pDialog.setConfirmClickListener(null);
+					pDialog.show();
+
+
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

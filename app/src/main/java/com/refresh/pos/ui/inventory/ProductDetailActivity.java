@@ -1,9 +1,5 @@
 package com.refresh.pos.ui.inventory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -25,7 +21,6 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.refresh.pos.R;
 import com.refresh.pos.domain.DateTimeStrategy;
@@ -35,6 +30,12 @@ import com.refresh.pos.domain.inventory.ProductCatalog;
 import com.refresh.pos.domain.inventory.ProductLot;
 import com.refresh.pos.domain.inventory.Stock;
 import com.refresh.pos.techicalservices.NoDaoSetException;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * UI for shows the datails of each Product.
@@ -119,19 +120,19 @@ public class ProductDetailActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_productdetail_main);
 //		stockListView = (ListView) findViewById(R.id.stockListView);
-		nameBox = (EditText) findViewById(R.id.nameBox);
-		priceBox = (EditText) findViewById(R.id.priceBox);
-		barcodeBox = (EditText) findViewById(R.id.barcodeBox);
-		stockSumBox = (TextView) findViewById(R.id.stockSumBox);
-		submitEditButton = (Button) findViewById(R.id.submitEditButton);
-		submitEditButton.setVisibility(View.INVISIBLE);
-		cancelEditButton = (Button) findViewById(R.id.cancelEditButton);
-		cancelEditButton.setVisibility(View.INVISIBLE);
-		openEditButton = (Button) findViewById(R.id.openEditButton);
+        nameBox = findViewById(R.id.nameBox);
+        priceBox = findViewById(R.id.priceBox);
+        barcodeBox = findViewById(R.id.barcodeBox);
+        stockSumBox = findViewById(R.id.stockSumBox);
+        submitEditButton = findViewById(R.id.submitEditButton);
+        submitEditButton.setVisibility(View.INVISIBLE);
+        cancelEditButton = findViewById(R.id.cancelEditButton);
+        cancelEditButton.setVisibility(View.INVISIBLE);
+        openEditButton = findViewById(R.id.openEditButton);
 //		openEditButton.setVisibility(View.VISIBLE);
-		addProductLotButton = (Button) findViewById(R.id.addProductLotButton);
-		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
-		mTabHost.setup();
+        addProductLotButton = findViewById(R.id.addProductLotButton);
+        mTabHost = findViewById(android.R.id.tabhost);
+        mTabHost.setup();
 		mTabHost.addTab(mTabHost.newTabSpec("tab_test1").setIndicator(res.getString(R.string.product_detail))
 				.setContent(R.id.tab1));
 //		mTabHost.addTab(mTabHost.newTabSpec("tab_test2").setIndicator(res.getString(R.string.stock))
@@ -277,19 +278,23 @@ public class ProductDetailActivity extends Activity {
 		Viewlayout = inflater.inflate(R.layout.layout_addproductlot,
 				(ViewGroup) findViewById(R.id.addProdutlot_dialog));
 		popDialog.setView(Viewlayout);
-		
-		costBox = (EditText) Viewlayout.findViewById(R.id.costBox);
-		quantityBox = (EditText) Viewlayout.findViewById(R.id.quantityBox);
-		confirmButton = (Button) Viewlayout.findViewById(R.id.confirmButton);
-		clearButton = (Button) Viewlayout.findViewById(R.id.clearButton); 
-		confirmButton.setOnClickListener(new View.OnClickListener() {
+
+        costBox = Viewlayout.findViewById(R.id.costBox);
+        quantityBox = Viewlayout.findViewById(R.id.quantityBox);
+        confirmButton = Viewlayout.findViewById(R.id.confirmButton);
+        clearButton = Viewlayout.findViewById(R.id.clearButton);
+        confirmButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				if (quantityBox.getText().toString().equals("") || costBox.getText().toString().equals("")) {
-					Toast.makeText(ProductDetailActivity.this,
-							res.getString(R.string.please_input_all), Toast.LENGTH_SHORT)
-							.show();
+
+
+                    SweetAlertDialog pDialog = new SweetAlertDialog(ProductDetailActivity.this, SweetAlertDialog.WARNING_TYPE);
+                    pDialog.setTitleText(res.getString(R.string.please_input_all));
+                    pDialog.setConfirmClickListener(null);
+                    pDialog.show();
+
 				} else {
 					boolean success = stock.addProductLot(
 							DateTimeStrategy.getCurrentTime(), 
@@ -298,7 +303,11 @@ public class ProductDetailActivity extends Activity {
 							Double.parseDouble(costBox.getText().toString()));
 
 					if (success) {
-						Toast.makeText(ProductDetailActivity.this, res.getString(R.string.success), Toast.LENGTH_SHORT).show();
+
+                        SweetAlertDialog pDialog = new SweetAlertDialog(ProductDetailActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+                        pDialog.setConfirmClickListener(null);
+                        pDialog.show();
+
 						costBox.setText("");
 						quantityBox.setText("");
 						onResume();
@@ -306,8 +315,13 @@ public class ProductDetailActivity extends Activity {
 						
 						
 					} else {
-						Toast.makeText(ProductDetailActivity.this, res.getString(R.string.fail) ,Toast.LENGTH_SHORT).show();
-					}
+
+
+                        SweetAlertDialog pDialog = new SweetAlertDialog(ProductDetailActivity.this, SweetAlertDialog.WARNING_TYPE);
+                        pDialog.setTitleText(res.getString(R.string.fail));
+                        pDialog.setConfirmClickListener(null);
+                        pDialog.show();
+                    }
 				}
 				
 			}

@@ -42,7 +42,7 @@
     <string name="hint_lang">"الرجاء إعادة تشغيل التطبيق لتطبيق إعدادات اللغة هذه. "</string>
     <string name="password">كلمه المرور</string>
     <string name="mobile">الهاتف</string>
-    <string name="lang_en">انجليزي</string>
+    <string name="lang_en">English</string>
     <string name="login">تسجيل الدخول</string>
     <string name="skip">تخطي</string>
     <string name="email">البريد الالكتروني</string>
@@ -54,7 +54,7 @@
     <string name="logout">تسجيل الخروج</string>
     <string name="orderSubmited">تم إرسال الطلب بنجاح</string>
     <string name="refresh">تحديث</string>
-    <string name="lang_ar">عربي</string>
+    <string name="lang_ar">Arabic</string>
     <string name="quantityerror">"الكميه المطلوبه غير متوفره "</string>
 
 
@@ -83,4 +83,6 @@
     <string name="invalidlogin">"الاميل او كلمه المرور غير صحيحه "</string>
     <string name="removesale">"حزف البيع "</string>
     <string name="selectoffice">"اختار الفرع "</string>
+    <string name="login_lang_ar">Arabic</string>
+    <string name="login_lang_en">"انجليزي "</string>
 </resources>
