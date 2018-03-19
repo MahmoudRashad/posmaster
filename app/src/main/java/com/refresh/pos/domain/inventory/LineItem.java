@@ -153,7 +153,8 @@ JSONObject res = new JSONObject();
 			res.put("ItemId",""+id);
 			res.put("Quantity",""+quantity);
 			res.put("UnitId","1");
-			res.put("Price",""+getTotalPriceAtSale());
+//			res.put("Price",""+getTotalPriceAtSale());
+			res.put("Price", unitPriceAtSale);
 			res.put("DiscountRate","0");
 			res.put("Discount","0");
 		} catch (JSONException e) {

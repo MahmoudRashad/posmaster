@@ -84,5 +84,5 @@
     <string name="removesale">"حزف البيع "</string>
     <string name="selectoffice">"اختار الفرع "</string>
     <string name="login_lang_ar">Arabic</string>
-    <string name="login_lang_en">"انجليزي "</string>
+    <string name="login_lang_en">EN</string>
 </resources>

@@ -334,6 +334,31 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	/**
+	 * Open logout  dialog.
+	 */
+	private void openlogoutDialog() {
+
+		AlertDialog.Builder quitDialog = new AlertDialog.Builder(
+				MainActivity.this);
+		quitDialog.setTitle(res.getString(R.string.dialog_quit));
+		quitDialog.setPositiveButton(res.getString(R.string.quit), new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				go_logout(MainActivity.this);
+				finish();
+			}
+		});
+
+		quitDialog.setNegativeButton(res.getString(R.string.no), new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+
+			}
+		});
+		quitDialog.show();
+	}
+
+	/**
 	 * Option on-click handler.
 	 * @param view
 	 */
@@ -464,7 +489,7 @@ public class MainActivity extends FragmentActivity {
 				}
 				return true;
 			case R.id.logout:
-				go_logout(MainActivity.this);
+				openlogoutDialog();
 				return true;
             default:
                 return super.onOptionsItemSelected(item);

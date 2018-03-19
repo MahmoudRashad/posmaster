@@ -70,8 +70,8 @@
     <string name="removesale">Remove Sale</string>
     <string name="invalidlogin">Invalid UserName or Password</string>
     <string name="selectoffice">Select Office</string>
-    <string name="login_lang_ar">عربي</string>
-    <string name="login_lang_en">English</string>
+    <string name="login_lang_ar">ع</string>
+    <string name="login_lang_en">انجليزي</string>
 
 
     <string-array name="period">
